@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>@yield('title', 'Admin Dashboard JDIH')</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+    
+    <script>
+        const savedTheme = localStorage.getItem('admin-theme') || 'light';
+        document.documentElement.setAttribute('data-theme', savedTheme);
+    </script>
+
+    <style>
+        :root {
+            /* Light Mode Variables */
+            --bg-body: #f4f6fa;
+            --bg-card: #ffffff;
+            --text-main: #0f172a;
+            --text-secondary: #475569;
+            --border-color: rgba(15, 23, 42, 0.08);
+            
+            --sidebar-width: 260px;
+            --primary-color: #0d3b66;
+            --primary-light: #185a9d;
+            --secondary-color: #f4d35e;
+            --accent-color: #ee964b;
+            --text-light: #f8f9fa;
+            --card-shadow: 0 5px 15px rgba(0, 0, 0, 0.04);
+            --transition-smooth: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        [data-theme="dark"] {
+            /* Dark Mode Variables */
+            --bg-body: #0b0f19;
+            --bg-card: #151c2c;
+            --text-main: #e2e8f0;
+            --text-secondary: #94a3b8;
+            --border-color: rgba(255, 255, 255, 0.08);
+            --card-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        /* Dark Mode Overrides for hardcoded Bootstrap classes */
+        [data-theme="dark"] .bg-white {
+            background-color: var(--bg-card) !important;
+        }
+        [data-theme="dark"] .text-dark {
+            color: var(--text-main) !important;
+        }
+        [data-theme="dark"] .text-muted {
+            color: var(--text-secondary) !important;
+        }
+        [data-theme="dark"] .card {
+            background-color: var(--bg-card) !important;
+            border-color: var(--border-color) !important;
+            box-shadow: var(--card-shadow) !important;
+        }
+        [data-theme="dark"] .table {
+            color: var(--text-main) !important;
+            border-color: var(--border-color) !important;
+        }
+        [data-theme="dark"] .table-hover tbody tr:hover {
+            color: var(--text-main) !important;
+            background-color: rgba(255, 255, 255, 0.03) !important;
+        }
+        [data-theme="dark"] .table th, [data-theme="dark"] .table td {
+            border-color: var(--border-color) !important;
+            color: var(--text-main) !important;
+        }
+        [data-theme="dark"] .bg-light {
+            background-color: rgba(255, 255, 255, 0.04) !important;
+        }
+        [data-theme="dark"] header {
+            background-color: var(--bg-card) !important;
+            border-bottom-color: var(--border-color) !important;
+        }
+        [data-theme="dark"] .form-control, [data-theme="dark"] .form-select {
+            background-color: #0b0f19 !important;
+            border-color: var(--border-color) !important;
+            color: var(--text-main) !important;
+        }
+        [data-theme="dark"] .form-control:focus, [data-theme="dark"] .form-select:focus {
+            background-color: #0b0f19 !important;
+            border-color: var(--primary-light) !important;
+            color: var(--text-main) !important;
+        }
+        [data-theme="dark"] .form-control::placeholder {
+            color: var(--text-secondary) !important;
+        }
+        [data-theme="dark"] .input-group-text {
+            background-color: #0b0f19 !important;
+            border-color: var(--border-color) !important;
+            color: var(--text-main) !important;
+        }
+        [data-theme="dark"] .modal-content {
+            background-color: var(--bg-card) !important;
+            color: var(--text-main) !important;
+        }
+        [data-theme="dark"] .alert-success {
+            background-color: rgba(25, 135, 84, 0.15) !important;
+            color: #2ec4b6 !important;
+        }
+        [data-theme="dark"] .alert-danger {
+            background-color: rgba(220, 53, 69, 0.15) !important;
+            color: #e71d36 !important;
+        }
+
+        /* Sidebar Styling */
+        aside {
+            width: var(--sidebar-width);
+            background: linear-gradient(180deg, #07223c 0%, #0d3b66 100%);
+            color: var(--text-light);
+            height: 100vh;
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            border-right: 3px solid var(--secondary-color);
+            transition: var(--transition-smooth);
+        }
+        
+        .sidebar-header {
+            padding: 24px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .sidebar-brand {
+            font-weight: 700;
+            color: var(--text-light) !important;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .sidebar-menu {
+            padding: 20px 14px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            flex-grow: 1;
+            overflow-y: auto;
+        }
+        
+        .sidebar-item {
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.7);
+            font-weight: 500;
+            padding: 12px 16px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: var(--transition-smooth);
+        }
+        
+        .sidebar-item:hover, .sidebar-item.active {
+            background-color: rgba(255, 255, 255, 0.08);
+            color: #fff;
+        }
+        
+        .sidebar-item.active {
+            border-left: 4px solid var(--secondary-color);
+            border-top-left-radius: 0;
+            border-bottom-left-radius: 0;
+            background-color: rgba(255, 255, 255, 0.12);
+        }
+        
+        .sidebar-footer {
+            padding: 16px 20px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        /* Main Page Wrapper */
+        .wrapper {
+            margin-left: var(--sidebar-width);
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            width: calc(100% - var(--sidebar-width));
+            transition: var(--transition-smooth);
+        }
+        
+        /* Top Navigation Header */
+        header {
+            background: #fff;
+            padding: 15px 30px;
+            border-bottom: 1px solid rgba(13, 59, 102, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 90;
+        }
+
+        /* Content panel */
+        .content-container {
+            padding: 30px;
+            flex-grow: 1;
+        }
+
+        /* Badge and status */
+        .badge-status {
+            font-weight: 600;
+            padding: 4px 10px;
+            border-radius: 30px;
+        }
+
+        /* Responsive */
+        @media (max-width: 991.98px) {
+            aside {
+                left: calc(var(--sidebar-width) * -1);
+            }
+            aside.show {
+                left: 0;
+            }
+            .wrapper {
+                margin-left: 0;
+                width: 100%;
+            }
+        }
+    </style>
+    @yield('styles')
+</head>
+<body>
+
+    @include('layouts.partials.admin-sidebar')
+
+    <!-- Main Wrapper Area -->
+    <div class="wrapper">
+        @include('layouts.partials.admin-header')
+
+        <div class="content-container">
+            <!-- Toast notification messages -->
+            @if(session('success'))
+                <div class="alert alert-success alert-dismissible fade show border-0 shadow-sm mb-4" role="alert">
+                    <i class="bi bi-check-circle-fill me-2"></i> {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+            
+            @if(session('error'))
+                <div class="alert alert-danger alert-dismissible fade show border-0 shadow-sm mb-4" role="alert">
+                    <i class="bi bi-exclamation-triangle-fill me-2"></i> {{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            @endif
+
+            @yield('content')
+        </div>
+    </div>
+
+    <!-- Bootstrap 5 Bundle JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('sidebarToggle')?.addEventListener('click', function() {
+            document.getElementById('adminSidebar')?.classList.toggle('show');
+        });
+
+        // Theme Toggle Switch
+        const themeToggleBtn = document.getElementById('themeToggleBtn');
+        const themeToggleIcon = document.getElementById('themeToggleIcon');
+        
+        function updateToggleIcon(theme) {
+            if (theme === 'dark') {
+                themeToggleIcon.classList.remove('bi-moon-fill');
+                themeToggleIcon.classList.add('bi-sun-fill');
+            } else {
+                themeToggleIcon.classList.remove('bi-sun-fill');
+                themeToggleIcon.classList.add('bi-moon-fill');
+            }
+        }
+
+        const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+        updateToggleIcon(currentTheme);
+
+        themeToggleBtn?.addEventListener('click', function() {
+            const currentTheme = document.documentElement.getAttribute('data-theme') || 'light';
+            const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+            
+            document.documentElement.setAttribute('data-theme', newTheme);
+            localStorage.setItem('admin-theme', newTheme);
+            updateToggleIcon(newTheme);
+        });
+    </script>
+    @yield('scripts')
+</body>
+</html>
