@@ -32,6 +32,12 @@
             <a href="{{ route('admin.gallery.index') }}" class="sidebar-item {{ Route::is('admin.gallery.*') ? 'active' : '' }}">
                 <i class="bi bi-images"></i> Galeri Dokumentasi
             </a>
+            <a href="{{ route('admin.anggota.index') }}" class="sidebar-item {{ Route::is('admin.anggota.*') ? 'active' : '' }}">
+                <i class="bi bi-people-fill"></i> Anggota DPRD
+            </a>
+            <a href="{{ route('admin.alat-kelengkapan.index') }}" class="sidebar-item {{ Route::is('admin.alat-kelengkapan.*') ? 'active' : '' }}">
+                <i class="bi bi-diagram-3"></i> Alat Kelengkapan DPRD
+            </a>
             <a href="{{ route('admin.profile.edit') }}" class="sidebar-item {{ Route::is('admin.profile.*') ? 'active' : '' }}">
                 <i class="bi bi-bank"></i> Profil DPRD
             </a>

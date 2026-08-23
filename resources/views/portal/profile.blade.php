@@ -55,52 +55,213 @@
                         </ol>
                     </div>
 
-                    <!-- Structure Organization -->
+                    <!-- Struktur Pimpinan DPRD -->
                     <div class="card border-0 shadow-sm p-4 p-md-5 rounded-4">
-                        <h3 class="fw-bold text-primary mb-4">Struktur Organisasi</h3>
-                        
-                        @if(isset($gProfil) && $gProfil->struktur_organisasi)
-                            <div class="text-center">
-                                <img src="{{ asset($gProfil->struktur_organisasi) }}" alt="Bagan Struktur Organisasi DPRD" class="img-fluid rounded border shadow-sm p-2">
+                        <h3 class="fw-bold text-primary mb-1">Struktur Pimpinan DPRD</h3>
+                        <p class="text-muted fs-7 mb-4">Susunan Pimpinan DPRD Kabupaten Bolaang Mongondow Utara.</p>
+
+                        @php
+                            $pimpinanPengurus = (isset($pimpinanAk) && $pimpinanAk) ? $pimpinanAk->keanggotaans : collect();
+                            $pimpinanKetua = $pimpinanPengurus->firstWhere('jabatan', 'ketua');
+                            $pimpinanWakil = $pimpinanPengurus->where('jabatan', 'wakil')->values();
+                            $pimpinanSekretaris = $pimpinanPengurus->firstWhere('jabatan', 'sekretaris');
+                            $pimpinanAnggota = $pimpinanPengurus->where('jabatan', 'anggota')->values();
+                        @endphp
+
+                        @if($pimpinanPengurus->count())
+                            {{-- Sumber data: Alat Kelengkapan tipe Pimpinan DPRD --}}
+                            <div class="org-chart">
+                                {{-- Ketua --}}
+                                @if($pimpinanKetua)
+                                    <div class="d-flex justify-content-center mb-1">
+                                        <div class="text-center p-4 rounded-4 shadow-sm border border-warning border-opacity-50 bg-white" style="min-width: 250px;">
+                                            <img src="{{ $pimpinanKetua->anggotaDprd->foto ? asset($pimpinanKetua->anggotaDprd->foto) : 'https://ui-avatars.com/api/?name='.urlencode($pimpinanKetua->anggotaDprd->nama).'&background=0d3b66&color=f4d35e&size=128' }}" alt="{{ $pimpinanKetua->anggotaDprd->nama }}" class="rounded-circle border border-2 border-warning shadow-sm mb-2" style="width: 90px; height: 90px; object-fit: cover;">
+                                            <h5 class="fw-bold text-dark m-0">{{ $pimpinanKetua->anggotaDprd->nama }}</h5>
+                                            <span class="badge bg-warning text-dark px-3 py-1.5 mt-1 fw-semibold fs-8"><i class="bi bi-star-fill me-1"></i> Ketua DPRD</span>
+                                            @if($pimpinanKetua->anggotaDprd->fraksi)<small class="text-muted d-block mt-1 fs-8">{{ $pimpinanKetua->anggotaDprd->fraksi }}</small>@endif
+                                        </div>
+                                    </div>
+                                @endif
+
+                                {{-- Wakil --}}
+                                @if($pimpinanWakil->count())
+                                    <div class="text-center my-2"><i class="bi bi-arrow-down fs-4 text-muted d-block"></i></div>
+                                    <div class="row g-3 justify-content-center {{ $pimpinanSekretaris || $pimpinanAnggota->count() ? 'mb-1' : '' }}">
+                                        @foreach($pimpinanWakil as $wakil)
+                                            <div class="col-sm-6 col-lg-{{ $pimpinanWakil->count() > 1 ? 6 : 4 }}">
+                                                <div class="text-center p-3 rounded-4 shadow-sm border border-primary border-opacity-25 bg-white h-100">
+                                                    <img src="{{ $wakil->anggotaDprd->foto ? asset($wakil->anggotaDprd->foto) : 'https://ui-avatars.com/api/?name='.urlencode($wakil->anggotaDprd->nama).'&background=0d3b66&color=ffffff&size=128' }}" alt="{{ $wakil->anggotaDprd->nama }}" class="rounded-circle border border-2 border-primary border-opacity-25 shadow-sm mb-2" style="width: 72px; height: 72px; object-fit: cover;">
+                                                    <h6 class="fw-bold text-dark m-0">{{ $wakil->anggotaDprd->nama }}</h6>
+                                                    <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-1.5 mt-1 fw-semibold fs-8"><i class="bi bi-star-half me-1"></i> Wakil Ketua DPRD</span>
+                                                    @if($wakil->anggotaDprd->fraksi)<small class="text-muted d-block mt-1 fs-8">{{ $wakil->anggotaDprd->fraksi }}</small>@endif
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @endif
+
+                                {{-- Sekretaris --}}
+                                @if($pimpinanSekretaris)
+                                    <div class="text-center my-2"><i class="bi bi-arrow-down fs-4 text-muted d-block"></i></div>
+                                    <div class="d-flex justify-content-center {{ $pimpinanAnggota->count() ? 'mb-1' : '' }}">
+                                        <div class="text-center p-3 rounded-4 shadow-sm border border-success border-opacity-50 bg-white" style="min-width: 200px;">
+                                            <img src="{{ $pimpinanSekretaris->anggotaDprd->foto ? asset($pimpinanSekretaris->anggotaDprd->foto) : 'https://ui-avatars.com/api/?name='.urlencode($pimpinanSekretaris->anggotaDprd->nama).'&background=198754&color=ffffff&size=128' }}" alt="{{ $pimpinanSekretaris->anggotaDprd->nama }}" class="rounded-circle border border-2 border-success border-opacity-50 shadow-sm mb-2" style="width: 64px; height: 64px; object-fit: cover;">
+                                            <h6 class="fw-bold text-dark m-0">{{ $pimpinanSekretaris->anggotaDprd->nama }}</h6>
+                                            <span class="badge bg-success bg-opacity-10 text-success px-3 py-1.5 mt-1 fw-semibold fs-8">Sekretaris</span>
+                                        </div>
+                                    </div>
+                                @endif
+
+                                {{-- Anggota --}}
+                                @if($pimpinanAnggota->count())
+                                    <div class="text-center my-2"><i class="bi bi-arrow-down fs-4 text-muted d-block"></i></div>
+                                    <hr class="border-top border-secondary border-opacity-10 mx-auto my-2" style="max-width: 60%;">
+                                    <div class="row g-3 justify-content-center">
+                                        @foreach($pimpinanAnggota as $anggotaRow)
+                                            <div class="col-6 col-md-4 col-lg-3">
+                                                <div class="text-center p-3 rounded-4 shadow-sm border bg-white h-100">
+                                                    <img src="{{ $anggotaRow->anggotaDprd->foto ? asset($anggotaRow->anggotaDprd->foto) : 'https://ui-avatars.com/api/?name='.urlencode($anggotaRow->anggotaDprd->nama).'&background=e9ecef&color=0f172a&size=128' }}" alt="{{ $anggotaRow->anggotaDprd->nama }}" class="rounded-circle border shadow-sm mb-2" style="width: 56px; height: 56px; object-fit: cover;">
+                                                    <h6 class="fw-bold text-dark m-0 fs-7.5">{{ $anggotaRow->anggotaDprd->nama }}</h6>
+                                                    <small class="text-muted d-block mt-1 fs-9">{{ $anggotaRow->anggotaDprd->fraksi }}</small>
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @endif
+                            </div>
+                        @elseif(isset($anggotaDprd) && $anggotaDprd->where('jabatan', 'ketua')->count() + $anggotaDprd->where('jabatan', 'wakil_ketua')->count())
+                            {{-- Fallback: dari data Anggota DPRD (jabatan Ketua & Wakil Ketua) --}}
+                            @php
+                                $ketua = $anggotaDprd->firstWhere('jabatan', 'ketua');
+                                $wakilKetua = $anggotaDprd->where('jabatan', 'wakil_ketua')->values();
+                            @endphp
+
+                            <div class="org-chart">
+                                {{-- Ketua DPRD --}}
+                                @if($ketua)
+                                    <div class="d-flex justify-content-center mb-1">
+                                        <div class="text-center p-4 rounded-4 shadow-sm border border-warning border-opacity-50 bg-white" style="min-width: 250px;">
+                                            <img src="{{ $ketua->foto ? asset($ketua->foto) : 'https://ui-avatars.com/api/?name='.urlencode($ketua->nama).'&background=0d3b66&color=f4d35e&size=128' }}" alt="{{ $ketua->nama }}" class="rounded-circle border border-2 border-warning shadow-sm mb-2" style="width: 90px; height: 90px; object-fit: cover;">
+                                            <h5 class="fw-bold text-dark m-0">{{ $ketua->nama }}</h5>
+                                            <span class="badge bg-warning text-dark px-3 py-1.5 mt-1 fw-semibold fs-8"><i class="bi bi-star-fill me-1"></i> Ketua DPRD</span>
+                                            @if($ketua->fraksi)<small class="text-muted d-block mt-1 fs-8">{{ $ketua->fraksi }}</small>@endif
+                                        </div>
+                                    </div>
+                                @endif
+
+                                {{-- Wakil Ketua DPRD --}}
+                                @if($wakilKetua->count())
+                                    <div class="text-center my-2"><i class="bi bi-arrow-down fs-4 text-muted d-block"></i></div>
+                                    <div class="row g-3 justify-content-center">
+                                        @foreach($wakilKetua as $wakil)
+                                            <div class="col-sm-6 col-lg-{{ $wakilKetua->count() > 1 ? 6 : 4 }}">
+                                                <div class="text-center p-3 rounded-4 shadow-sm border border-primary border-opacity-25 bg-white h-100">
+                                                    <img src="{{ $wakil->foto ? asset($wakil->foto) : 'https://ui-avatars.com/api/?name='.urlencode($wakil->nama).'&background=0d3b66&color=ffffff&size=128' }}" alt="{{ $wakil->nama }}" class="rounded-circle border border-2 border-primary border-opacity-25 shadow-sm mb-2" style="width: 72px; height: 72px; object-fit: cover;">
+                                                    <h6 class="fw-bold text-dark m-0">{{ $wakil->nama }}</h6>
+                                                    <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-1.5 mt-1 fw-semibold fs-8"><i class="bi bi-star-half me-1"></i> Wakil Ketua DPRD</span>
+                                                    @if($wakil->fraksi)<small class="text-muted d-block mt-1 fs-8">{{ $wakil->fraksi }}</small>@endif
+                                                </div>
+                                            </div>
+                                        @endforeach
+                                    </div>
+                                @endif
                             </div>
                         @else
-                            <p class="text-muted fs-6 mb-4">
-                                Pengelolaan JDIH DPRD Kabupaten Bolaang Mongondow Utara berada di bawah pembinaan Sekretaris DPRD dan dikoordinasikan secara teknis oleh Bagian Hukum dan Perundang-undangan.
+                            <p class="text-muted fs-7 m-0 text-center py-4 bg-light rounded">
+                                Susunan Pimpinan DPRD belum tersedia.
                             </p>
-                            <!-- Graphic/Tree fallback -->
-                            <div class="bg-light p-4 rounded text-center border">
-                                <div class="fw-bold text-primary fs-5 mb-2">Sekretaris DPRD</div>
-                                <div class="text-muted fs-7 mb-3">Penanggung Jawab JDIH</div>
-                                <i class="bi bi-arrow-down fs-4 text-muted d-block mb-3"></i>
-                                
-                                <div class="row g-3 justify-content-center">
-                                    <div class="col-md-6">
-                                        <div class="bg-white p-3 rounded shadow-sm border border-primary border-opacity-20">
-                                            <div class="fw-bold text-dark fs-6">Kabag Hukum &amp; Persidangan</div>
-                                            <div class="text-muted fs-8">Koordinator Pelaksana</div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <i class="bi bi-arrow-down fs-4 text-muted d-block my-3"></i>
-                                
-                                <div class="row g-3 justify-content-center">
-                                    <div class="col-md-5">
-                                        <div class="bg-white p-3 rounded shadow-sm border">
-                                            <div class="fw-bold text-dark fs-7">Kasubag Perundang-undangan</div>
-                                            <div class="text-muted fs-9">Pengelola Dokumentasi</div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-5">
-                                        <div class="bg-white p-3 rounded shadow-sm border">
-                                            <div class="fw-bold text-dark fs-7">Pranata Humas / TI</div>
-                                            <div class="text-muted fs-9">Pengelola Sistem Informasi</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         @endif
                     </div>
+
+                    <!-- Struktur Alat Kelengkapan DPRD -->
+                    @if(isset($alatKelengkapan) && $alatKelengkapan->count())
+                        <div class="card border-0 shadow-sm p-4 p-md-5 rounded-4 mb-0">
+                            <h3 class="fw-bold text-primary mb-1">Struktur Alat Kelengkapan DPRD</h3>
+                            <p class="text-muted fs-7 mb-4">Susunan pengurus Komisi dan Badan-Badan di lingkungan DPRD Kabupaten Bolaang Mongondow Utara.</p>
+                        </div>
+
+                        @foreach($alatKelengkapan as $ak)
+                            @php
+                                $ketuaAk = $ak->keanggotaans->firstWhere('jabatan', 'ketua');
+                                $wakilAk = $ak->keanggotaans->where('jabatan', 'wakil')->values();
+                                $sekretarisAk = $ak->keanggotaans->firstWhere('jabatan', 'sekretaris');
+                                $anggotaAk = $ak->keanggotaans->where('jabatan', 'anggota')->values();
+                            @endphp
+                            <div class="card border-0 shadow-sm p-4 p-md-5 rounded-4 mt-4">
+                                <div class="d-flex align-items-center gap-2 mb-1">
+                                    <i class="bi {{ $ak->iconTipe() }} fs-5 text-primary"></i>
+                                    <h4 class="fw-bold text-dark m-0">{{ $ak->nama }}</h4>
+                                    <span class="badge bg-primary bg-opacity-10 text-primary px-2.5 py-1 fw-semibold fs-8">{{ $ak->labelTipe() }}</span>
+                                </div>
+                                @if($ak->keterangan)
+                                    <p class="text-muted fs-7 mb-4">{!! nl2br(e($ak->keterangan)) !!}</p>
+                                @else
+                                    <div class="mb-4"></div>
+                                @endif
+
+                                @if($ketuaAk || $wakilAk->count() || $sekretarisAk || $anggotaAk->count())
+                                    {{-- Ketua --}}
+                                    @if($ketuaAk)
+                                        <div class="d-flex justify-content-center mb-2">
+                                            <div class="text-center p-3 rounded-4 shadow-sm border border-warning border-opacity-50 bg-white" style="min-width: 220px;">
+                                                <img src="{{ $ketuaAk->anggotaDprd->foto ? asset($ketuaAk->anggotaDprd->foto) : 'https://ui-avatars.com/api/?name='.urlencode($ketuaAk->anggotaDprd->nama).'&background=0d3b66&color=f4d35e&size=128' }}" alt="{{ $ketuaAk->anggotaDprd->nama }}" class="rounded-circle border border-2 border-warning shadow-sm mb-2" style="width: 72px; height: 72px; object-fit: cover;">
+                                                <h6 class="fw-bold text-dark m-0">{{ $ketuaAk->anggotaDprd->nama }}</h6>
+                                                <span class="badge bg-warning text-dark px-3 py-1 mt-1 fw-semibold fs-8"><i class="bi bi-star-fill me-1"></i> Ketua</span>
+                                                @if($ketuaAk->anggotaDprd->fraksi)<small class="text-muted d-block mt-1 fs-8">{{ $ketuaAk->anggotaDprd->fraksi }}</small>@endif
+                                            </div>
+                                        </div>
+                                    @endif
+
+                                    {{-- Wakil --}}
+                                    @if($wakilAk->count())
+                                        <div class="text-center my-2"><i class="bi bi-arrow-down fs-4 text-muted d-block"></i></div>
+                                        <div class="row g-3 justify-content-center">
+                                            @foreach($wakilAk as $wakil)
+                                                <div class="col-sm-6 col-lg-{{ $wakilAk->count() > 1 ? 6 : 4 }}">
+                                                    <div class="text-center p-3 rounded-4 shadow-sm border border-primary border-opacity-25 bg-white h-100">
+                                                        <img src="{{ $wakil->anggotaDprd->foto ? asset($wakil->anggotaDprd->foto) : 'https://ui-avatars.com/api/?name='.urlencode($wakil->anggotaDprd->nama).'&background=0d3b66&color=ffffff&size=128' }}" alt="{{ $wakil->anggotaDprd->nama }}" class="rounded-circle border border-2 border-primary border-opacity-25 shadow-sm mb-2" style="width: 60px; height: 60px; object-fit: cover;">
+                                                        <h6 class="fw-bold text-dark m-0 fs-7.5">{{ $wakil->anggotaDprd->nama }}</h6>
+                                                        <span class="badge bg-primary bg-opacity-10 text-primary px-2 py-1 mt-1 fw-semibold fs-8">Wakil</span>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @endif
+
+                                    {{-- Sekretaris --}}
+                                    @if($sekretarisAk)
+                                        <div class="text-center my-2"><i class="bi bi-arrow-down fs-4 text-muted d-block"></i></div>
+                                        <div class="d-flex justify-content-center">
+                                            <div class="text-center p-3 rounded-4 shadow-sm border border-success border-opacity-50 bg-white" style="min-width: 200px;">
+                                                <img src="{{ $sekretarisAk->anggotaDprd->foto ? asset($sekretarisAk->anggotaDprd->foto) : 'https://ui-avatars.com/api/?name='.urlencode($sekretarisAk->anggotaDprd->nama).'&background=198754&color=ffffff&size=128' }}" alt="{{ $sekretarisAk->anggotaDprd->nama }}" class="rounded-circle border border-2 border-success border-opacity-50 shadow-sm mb-2" style="width: 56px; height: 56px; object-fit: cover;">
+                                                <h6 class="fw-bold text-dark m-0 fs-7.5">{{ $sekretarisAk->anggotaDprd->nama }}</h6>
+                                                <span class="badge bg-success bg-opacity-10 text-success px-2 py-1 mt-1 fw-semibold fs-8">Sekretaris</span>
+                                            </div>
+                                        </div>
+                                    @endif
+
+                                    {{-- Anggota --}}
+                                    @if($anggotaAk->count())
+                                        <div class="text-center my-2"><i class="bi bi-arrow-down fs-4 text-muted d-block"></i></div>
+                                        <hr class="border-top border-secondary border-opacity-10 mx-auto my-2" style="max-width: 60%;">
+                                        <div class="row g-3 justify-content-center">
+                                            @foreach($anggotaAk as $anggotaRow)
+                                                <div class="col-6 col-md-4 col-lg-3">
+                                                    <div class="text-center p-3 rounded-4 shadow-sm border bg-white h-100">
+                                                        <img src="{{ $anggotaRow->anggotaDprd->foto ? asset($anggotaRow->anggotaDprd->foto) : 'https://ui-avatars.com/api/?name='.urlencode($anggotaRow->anggotaDprd->nama).'&background=e9ecef&color=0f172a&size=128' }}" alt="{{ $anggotaRow->anggotaDprd->nama }}" class="rounded-circle border shadow-sm mb-2" style="width: 52px; height: 52px; object-fit: cover;">
+                                                        <h6 class="fw-bold text-dark m-0 fs-8">{{ $anggotaRow->anggotaDprd->nama }}</h6>
+                                                        <small class="text-muted d-block mt-1 fs-9">{{ $anggotaRow->anggotaDprd->fraksi }}</small>
+                                                    </div>
+                                                </div>
+                                            @endforeach
+                                        </div>
+                                    @endif
+                                @else
+                                    <p class="text-muted fs-7 m-0 text-center py-3 bg-light rounded">Susunan pengurus belum tersedia.</p>
+                                @endif
+                            </div>
+                        @endforeach
+                    @endif
                 </div>
 
                 <!-- Sidebar Info / Contacts -->
