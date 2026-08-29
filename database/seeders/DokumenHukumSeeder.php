@@ -2,7 +2,8 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\DokumenHukum;
+use App\Models\JenisDokumen;
 use Illuminate\Database\Seeder;
 
 class DokumenHukumSeeder extends Seeder
@@ -12,50 +13,285 @@ class DokumenHukumSeeder extends Seeder
      */
     public function run(): void
     {
-        $perda = \App\Models\JenisDokumen::where('kode', 'PERDA')->first();
-        $perDprd = \App\Models\JenisDokumen::where('kode', 'PER-DPRD')->first();
-        $kepDprd = \App\Models\JenisDokumen::where('kode', 'KEP-DPRD')->first();
+        $perda = JenisDokumen::where('kode', 'PERDA')->first();
+        $perDprd = JenisDokumen::where('kode', 'PER-DPRD')->first();
+        $kepDprd = JenisDokumen::where('kode', 'KEP-DPRD')->first();
+        $se = JenisDokumen::where('kode', 'SE')->first();
+        $ranperda = JenisDokumen::where('kode', 'RANPERDA')->first();
+        $na = JenisDokumen::where('kode', 'NA')->first();
+        $risalah = JenisDokumen::where('kode', 'RISALAH')->first();
+        $harmonisasi = JenisDokumen::where('kode', 'HARMONISASI')->first();
+        $buku = JenisDokumen::where('kode', 'BUKU')->first();
+        $artikel = JenisDokumen::where('kode', 'ARTIKEL-HUKUM')->first();
+        $artikelIlmiah = JenisDokumen::where('kode', 'ARTIKEL-ILMIAH')->first();
+        $putusanMa = JenisDokumen::where('kode', 'PUTUSAN-MA')->first();
 
-        if ($perda) {
-            \App\Models\DokumenHukum::create([
-                'jenis_dokumen_id' => $perda->id,
-                'judul' => 'Anggaran Pendapatan dan Belanja Daerah Kabupaten Bolaang Mongondow Utara Tahun Anggaran 2026',
-                'nomor' => '1',
-                'tahun' => 2026,
-                'tanggal_ditetapkan' => '2026-01-02',
-                'file_pdf' => null,
-                'abstrak' => 'Peraturan Daerah ini mengatur mengenai Anggaran Pendapatan dan Belanja Daerah (APBD) Kabupaten Bolaang Mongondow Utara untuk Tahun Anggaran 2026.',
-                'status' => 'Berlaku',
-                'hits' => 125,
-            ]);
-        }
-
-        if ($perDprd) {
-            \App\Models\DokumenHukum::create([
-                'jenis_dokumen_id' => $perDprd->id,
-                'judul' => 'Tata Tertib Dewan Perwakilan Rakyat Daerah Kabupaten Bolaang Mongondow Utara',
-                'nomor' => '2',
+        $docs = [
+            [
+                'jenis_dokumen_id' => $perda?->id,
+                'tipe_dokumen' => 'Produk Hukum',
+                'judul' => 'Peraturan Daerah Nomor 1 Tahun 2026 tentang Perubahan Atas Peraturan Daerah Nomor 3 Tahun 2014 Tentang Kawasan Tanpa Rokok',
+                'nomor' => '1/2026',
                 'tahun' => 2026,
                 'tanggal_ditetapkan' => '2026-01-15',
-                'file_pdf' => null,
-                'abstrak' => 'Peraturan ini menetapkan tata tertib pelaksanaan tugas, wewenang, hak, dan kewajiban anggota DPRD Kabupaten Bolaang Mongondow Utara.',
+                'tanggal_pengundangan' => '2026-01-20',
+                'penandatangan' => 'Ketua DPRD & Walikota',
+                'pemrakarsa' => 'DPRD',
+                'tempat_terbit' => 'Medan',
+                'sumber' => 'Lembaran Daerah Tahun 2026 Nomor 1',
+                'subjek' => 'Kawasan Tanpa Rokok, Kesehatan Masyarakat, Pengendalian Tembakau',
+                'bidang_hukum' => 'Hukum Kesehatan',
+                'bahasa' => 'Indonesia',
                 'status' => 'Berlaku',
-                'hits' => 98,
-            ]);
-        }
-
-        if ($kepDprd) {
-            \App\Models\DokumenHukum::create([
-                'jenis_dokumen_id' => $kepDprd->id,
-                'judul' => 'Persetujuan atas Rancangan Peraturan Daerah tentang Rencana Pembangunan Jangka Panjang Daerah Tahun 2026-2046',
-                'nomor' => '3',
+                'keterangan_status' => 'Mengubah Peraturan Daerah Nomor 3 Tahun 2014',
+                'abstrak' => 'Peraturan Daerah ini mengatur tentang penetapan Kawasan Tanpa Rokok (KTR) pada fasilitas pelayanan kesehatan, tempat proses belajar mengajar, tempat anak bermain, tempat ibadah, angkutan umum, tempat kerja, dan tempat umum lainnya guna melindungi hak masyarakat atas udara bersih.',
+                'file_pdf' => null,
+                'file_size' => '3.92 MB',
+                'hits' => 37809,
+                'downloads' => 110,
+            ],
+            [
+                'jenis_dokumen_id' => $perDprd?->id,
+                'tipe_dokumen' => 'Produk Hukum',
+                'judul' => 'Peraturan Dewan Perwakilan Rakyat Daerah Nomor 1 Tahun 2026 tentang Perubahan Atas Peraturan DPRD Nomor 1 Tahun 2025 tentang Tata Tertib',
+                'nomor' => '1/2026',
                 'tahun' => 2026,
                 'tanggal_ditetapkan' => '2026-02-10',
+                'tanggal_pengundangan' => '2026-02-12',
+                'penandatangan' => 'Pimpinan DPRD',
+                'pemrakarsa' => 'Badan Pembentukan Peraturan Daerah',
+                'tempat_terbit' => 'Medan',
+                'sumber' => 'Berita Daerah Tahun 2026 Nomor 4',
+                'subjek' => 'Tata Tertib DPRD, Alat Kelengkapan Dewan, Sidang Paripurna',
+                'bidang_hukum' => 'Hukum Tata Negara & Administrasi',
+                'bahasa' => 'Indonesia',
+                'status' => 'Mengubah',
+                'keterangan_status' => 'Mengubah Peraturan DPRD Nomor 1 Tahun 2025',
+                'abstrak' => 'Pengaturan mengenai penyempurnaan mekanisme persidangan kedewanan, pemanfaatan teknologi informasi dalam risalah digital dan voting elektronik pada rapat-rapat paripurna DPRD.',
                 'file_pdf' => null,
-                'abstrak' => 'Keputusan DPRD ini menyetujui rancangan peraturan daerah mengenai RPJPD Kabupaten Bolaang Mongondow Utara periode 2026-2046.',
+                'file_size' => '1.42 MB',
+                'hits' => 25394,
+                'downloads' => 81,
+            ],
+            [
+                'jenis_dokumen_id' => $kepDprd?->id,
+                'tipe_dokumen' => 'Produk Hukum',
+                'judul' => 'Keputusan Dewan Perwakilan Rakyat Daerah Nomor 100.1.4/6570/Kep-DPRD/4/2026 tentang Rekomendasi Laporan Keterangan Pertanggungjawaban (LKPJ) Pemerintah Kota',
+                'nomor' => '100.1.4/6570/Kep-DPRD/4/2026',
+                'tahun' => 2026,
+                'tanggal_ditetapkan' => '2026-04-18',
+                'tanggal_pengundangan' => '2026-04-18',
+                'penandatangan' => 'Ketua DPRD',
+                'pemrakarsa' => 'Panitia Khusus LKPJ',
+                'tempat_terbit' => 'Medan',
+                'sumber' => 'Arsip Resmi Sekretariat DPRD',
+                'subjek' => 'LKPJ, Evaluasi Kinerja Pemerintah Daerah, Rekomendasi DPRD',
+                'bidang_hukum' => 'Hukum Keuangan & Pemerintahan Daerah',
+                'bahasa' => 'Indonesia',
                 'status' => 'Berlaku',
-                'hits' => 74,
-            ]);
+                'keterangan_status' => 'Keputusan Tetap',
+                'abstrak' => 'Keputusan DPRD tentang penyampaian catatan dan rekomendasi strategis terhadap capaian kinerja pelaksanaan program pembangunan daerah dan APBD.',
+                'file_pdf' => null,
+                'file_size' => '1.19 MB',
+                'hits' => 24505,
+                'downloads' => 45,
+            ],
+            [
+                'jenis_dokumen_id' => $se?->id,
+                'tipe_dokumen' => 'Produk Hukum',
+                'judul' => 'Surat Edaran Nomor 100.2.1/191326/2026 tentang Pencegahan Korupsi dan Pengendalian Gratifikasi Terkait Hari Raya di Lingkungan Pemerintahan',
+                'nomor' => '100.2.1/191326/2026',
+                'tahun' => 2026,
+                'tanggal_ditetapkan' => '2026-03-25',
+                'tanggal_pengundangan' => '2026-03-25',
+                'penandatangan' => 'Sekretaris DPRD',
+                'pemrakarsa' => 'Inspektorat & Sekretariat',
+                'tempat_terbit' => 'Medan',
+                'sumber' => 'Surat Edaran Dinas',
+                'subjek' => 'Pengendalian Gratifikasi, Anti Korupsi, Disiplin Aparatur Sipil Negara',
+                'bidang_hukum' => 'Hukum Kepegawaian & Pidana Khusus',
+                'bahasa' => 'Indonesia',
+                'status' => 'Berlaku',
+                'keterangan_status' => 'Berlaku Khusus',
+                'abstrak' => 'Petunjuk teknis pencegahan tindak pidana korupsi serta penolakan penerimaan hadiah atau gratifikasi dalam bentuk apapun oleh pejabat dan pegawai.',
+                'file_pdf' => null,
+                'file_size' => '0.59 MB',
+                'hits' => 43435,
+                'downloads' => 287,
+            ],
+            // Monografi Hukum
+            [
+                'jenis_dokumen_id' => $ranperda?->id,
+                'tipe_dokumen' => 'Monografi Hukum',
+                'judul' => 'Rancangan Peraturan Daerah tentang Penghormatan Terhadap Rumah Ibadah dan Pemuka Agama',
+                'nomor' => 'RANPERDA-04/2026',
+                'tahun' => 2026,
+                'tanggal_ditetapkan' => '2026-02-01',
+                'tanggal_pengundangan' => null,
+                'penandatangan' => 'Inisiator Komisi',
+                'pemrakarsa' => 'DPRD',
+                'tempat_terbit' => 'Medan',
+                'sumber' => 'Draf Propemperda 2026',
+                'subjek' => 'Kerukunan Umat Beragama, Fasilitas Tempat Ibadah, Perlindungan Tokoh Agama',
+                'bidang_hukum' => 'Hukum Sosial & Keagamaan',
+                'bahasa' => 'Indonesia',
+                'status' => 'Berlaku',
+                'keterangan_status' => 'Dalam Pembahasan Pansus',
+                'abstrak' => 'Naskah draf rancangan peraturan daerah yang menjamin kenyamanan dan kesucian kawasan rumah ibadah serta jaminan sosial perlindungan ketenagakerjaan bagi pemuka agama.',
+                'file_pdf' => null,
+                'file_size' => '2.10 MB',
+                'hits' => 18450,
+                'downloads' => 95,
+            ],
+            [
+                'jenis_dokumen_id' => $na?->id,
+                'tipe_dokumen' => 'Monografi Hukum',
+                'judul' => 'Naskah Akademik Rancangan Peraturan Daerah tentang Pengarusutamaan Gender dan Perlindungan Perempuan',
+                'nomor' => 'NA-02/2026',
+                'tahun' => 2026,
+                'tanggal_ditetapkan' => '2026-03-10',
+                'tanggal_pengundangan' => null,
+                'penandatangan' => 'Tim Ahli & Pusat Studi Hukum',
+                'pemrakarsa' => 'Pemerintah Daerah & DPRD',
+                'tempat_terbit' => 'Medan',
+                'sumber' => 'Hasil Riset Akademik',
+                'subjek' => 'Pengarusutamaan Gender, Pemberdayaan Perempuan, Perlindungan Anak',
+                'bidang_hukum' => 'Hukum Hak Asasi Manusia',
+                'bahasa' => 'Indonesia',
+                'status' => 'Berlaku',
+                'keterangan_status' => 'Selesai Harmonisasi',
+                'abstrak' => 'Kajian ilmiah komprehensif mengkaji aspek sosiologis, filosofis, dan yuridis mengenai urgensi pengarusutamaan gender dalam seluruh tahapan perencanaan pembangunan daerah.',
+                'file_pdf' => null,
+                'file_size' => '4.50 MB',
+                'hits' => 12300,
+                'downloads' => 64,
+            ],
+            [
+                'jenis_dokumen_id' => $risalah?->id,
+                'tipe_dokumen' => 'Monografi Hukum',
+                'judul' => 'Risalah Rapat Paripurna DPRD dalam Rangka Penjelasan Kepala Daerah atas Ranperda Pertanggungjawaban APBD',
+                'nomor' => 'RISALAH-12/2026',
+                'tahun' => 2026,
+                'tanggal_ditetapkan' => '2026-05-14',
+                'tanggal_pengundangan' => null,
+                'penandatangan' => 'Notulis & Bagian Persidangan',
+                'pemrakarsa' => 'Sekretariat DPRD',
+                'tempat_terbit' => 'Medan',
+                'sumber' => 'Bagian Persidangan & Risalah',
+                'subjek' => 'Risalah Paripurna, Pandangan Umum Fraksi, Jawaban Walikota',
+                'bidang_hukum' => 'Hukum Acara Parlemen',
+                'bahasa' => 'Indonesia',
+                'status' => 'Berlaku',
+                'keterangan_status' => 'Dokumen Terbuka',
+                'abstrak' => 'Transkripsi kata demi kata seluruh interupsi, pandangan umum fraksi-fraksi, serta pidato pengantar Walikota pada rapat paripurna masa sidang II.',
+                'file_pdf' => null,
+                'file_size' => '3.12 MB',
+                'hits' => 9820,
+                'downloads' => 42,
+            ],
+            [
+                'jenis_dokumen_id' => $harmonisasi?->id,
+                'tipe_dokumen' => 'Monografi Hukum',
+                'judul' => 'Hasil Harmonisasi Rancangan Peraturan Daerah tentang Pencegahan dan Pemadam Kebakaran',
+                'nomor' => 'W2.PP.04.02-14662',
+                'tahun' => 2025,
+                'tanggal_ditetapkan' => '2025-11-20',
+                'tanggal_pengundangan' => null,
+                'penandatangan' => 'Kemenkumham Kanwil Sumut & Bapemperda',
+                'pemrakarsa' => 'Bapemperda',
+                'tempat_terbit' => 'Medan',
+                'sumber' => 'Kemenkumham',
+                'subjek' => 'Harmonisasi Perda, Pemadam Kebakaran, Manajemen Proteksi Gedung',
+                'bidang_hukum' => 'Hukum Pembentukan Peraturan',
+                'bahasa' => 'Indonesia',
+                'status' => 'Berlaku',
+                'keterangan_status' => 'Harmonisasi Selesai Tanpa Catatan Berat',
+                'abstrak' => 'Matriks penyelarasan materi muatan norma pasal per pasal antara norma hukum nasional dan draf Ranperda Proteksi Bahaya Kebakaran.',
+                'file_pdf' => null,
+                'file_size' => '1.80 MB',
+                'hits' => 15200,
+                'downloads' => 77,
+            ],
+            // Artikel Hukum
+            [
+                'jenis_dokumen_id' => $artikel?->id,
+                'tipe_dokumen' => 'Artikel Hukum',
+                'judul' => 'Konsep Pengelolaan Keuangan Negara dan Barang Milik Daerah yang Berkeadilan',
+                'nomor' => 'ART-08/2026',
+                'tahun' => 2026,
+                'tanggal_ditetapkan' => '2026-03-01',
+                'tanggal_pengundangan' => null,
+                'penandatangan' => 'Tim JDIH & Akademisi',
+                'pemrakarsa' => 'Pusat Dokumentasi Hukum',
+                'tempat_terbit' => 'Medan',
+                'sumber' => 'Jurnal JDIH Vol 4 No 1',
+                'subjek' => 'Barang Milik Daerah, Pengelolaan Aset, Keuangan Publik',
+                'bidang_hukum' => 'Hukum Keuangan Publik',
+                'bahasa' => 'Indonesia',
+                'status' => 'Berlaku',
+                'keterangan_status' => 'Artikel Ilmiah Populer',
+                'abstrak' => 'Ulasan mengenai prinsip-prinsip good governance dan transparansi dalam penertiban sertifikasi aset tanah milik pemerintah daerah demi mencegah kerugian negara.',
+                'file_pdf' => null,
+                'file_size' => '0.85 MB',
+                'hits' => 16500,
+                'downloads' => 135,
+            ],
+            [
+                'jenis_dokumen_id' => $artikelIlmiah?->id,
+                'tipe_dokumen' => 'Artikel Hukum',
+                'judul' => 'Kewenangan Komisi Penyiaran Indonesia dan Penguatan Lembaga Legislasi Daerah dalam Perlindungan Hak Informasi Publik',
+                'nomor' => 'ART-04/2025',
+                'tahun' => 2025,
+                'tanggal_ditetapkan' => '2025-08-15',
+                'tanggal_pengundangan' => null,
+                'penandatangan' => 'Peneliti JDIH',
+                'pemrakarsa' => 'Sekretariat DPRD',
+                'tempat_terbit' => 'Medan',
+                'sumber' => 'Buletin Hukum Edisi 2',
+                'subjek' => 'Keterbukaan Informasi Publik, Penyiaran Daerah, Hak Asasi',
+                'bidang_hukum' => 'Hukum Informasi & Komunikasi',
+                'bahasa' => 'Indonesia',
+                'status' => 'Berlaku',
+                'keterangan_status' => 'Terbit',
+                'abstrak' => 'Analisis yuridis terhadap kedudukan hukum lembaga penyiaran publik lokal dan sinergi dengan pengawasan DPRD dalam penyiaran konten edukatif dan ramah anak.',
+                'file_pdf' => null,
+                'file_size' => '1.15 MB',
+                'hits' => 11200,
+                'downloads' => 92,
+            ],
+            // Putusan Pengadilan
+            [
+                'jenis_dokumen_id' => $putusanMa?->id,
+                'tipe_dokumen' => 'Putusan Pengadilan',
+                'judul' => 'Putusan Mahkamah Agung Nomor 48 P/HUM/2024 tentang Pengujian Hak Uji Materiil Peraturan Daerah Terhadap Undang-Undang',
+                'nomor' => '48 P/HUM/2024',
+                'tahun' => 2024,
+                'tanggal_ditetapkan' => '2024-10-28',
+                'tanggal_pengundangan' => '2024-11-05',
+                'penandatangan' => 'Majelis Hakim Agung MA RI',
+                'pemrakarsa' => 'Mahkamah Agung',
+                'tempat_terbit' => 'Jakarta / Medan',
+                'sumber' => 'Direktori Putusan Mahkamah Agung RI',
+                'subjek' => 'Hak Uji Materiil, Pajak Daerah dan Retribusi Daerah, Yurisprudensi',
+                'bidang_hukum' => 'Hukum Acara Mahkamah Agung',
+                'bahasa' => 'Indonesia',
+                'status' => 'Berlaku',
+                'keterangan_status' => 'Berkekuatan Hukum Tetap (Inkracht)',
+                'abstrak' => 'Putusan Mahkamah Agung yang menguji legalitas penarikan retribusi jasa umum daerah dan sinkronisasinya terhadap Undang-Undang Hubungan Keuangan Pusat dan Daerah.',
+                'file_pdf' => null,
+                'file_size' => '2.80 MB',
+                'hits' => 8940,
+                'downloads' => 58,
+            ],
+        ];
+
+        foreach ($docs as $doc) {
+            if ($doc['jenis_dokumen_id']) {
+                DokumenHukum::updateOrCreate(
+                    ['nomor' => $doc['nomor'], 'tahun' => $doc['tahun']],
+                    $doc
+                );
+            }
         }
     }
 }

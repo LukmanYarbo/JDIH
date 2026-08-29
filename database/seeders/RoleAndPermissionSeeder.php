@@ -2,8 +2,10 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
+use Spatie\Permission\PermissionRegistrar;
 
 class RoleAndPermissionSeeder extends Seeder
 {
@@ -13,21 +15,21 @@ class RoleAndPermissionSeeder extends Seeder
     public function run(): void
     {
         // Reset cached roles and permissions
-        app()[\Spatie\Permission\PermissionRegistrar::class]->forgetCachedPermissions();
+        app()[PermissionRegistrar::class]->forgetCachedPermissions();
 
         // Create permissions
-        \Spatie\Permission\Models\Permission::create(['name' => 'manage-users']);
-        \Spatie\Permission\Models\Permission::create(['name' => 'manage-documents']);
-        \Spatie\Permission\Models\Permission::create(['name' => 'manage-categories']);
-        \Spatie\Permission\Models\Permission::create(['name' => 'manage-news']);
+        $permissions = ['manage-users', 'manage-documents', 'manage-categories', 'manage-news'];
+        foreach ($permissions as $p) {
+            Permission::findOrCreate($p, 'web');
+        }
 
-        // Create roles and assign created permissions
-        $roleAdmin = \Spatie\Permission\Models\Role::create(['name' => 'Admin']);
-        $roleAdmin->givePermissionTo(\Spatie\Permission\Models\Permission::all());
+        // Create roles and assign permissions
+        $roleAdmin = Role::findOrCreate('Admin', 'web');
+        $roleAdmin->syncPermissions(Permission::all());
 
-        $roleOperator = \Spatie\Permission\Models\Role::create(['name' => 'Operator']);
-        $roleOperator->givePermissionTo(['manage-documents', 'manage-categories', 'manage-news']);
+        $roleOperator = Role::findOrCreate('Operator', 'web');
+        $roleOperator->syncPermissions(['manage-documents', 'manage-categories', 'manage-news']);
 
-        $roleUser = \Spatie\Permission\Models\Role::create(['name' => 'User']);
+        $roleUser = Role::findOrCreate('User', 'web');
     }
 }

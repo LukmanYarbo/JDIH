@@ -42,10 +42,10 @@
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
                                     @if($user->id !== auth()->id())
-                                        <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus user ini?')" class="m-0">
+                                        <form action="{{ route('admin.users.destroy', $user->id) }}" method="POST" class="m-0 delete-form" data-title="Hapus Pengguna Sistem?" data-confirm="Akun pengguna '{{ $user->name }}' ({{ $user->email }}) akan dihapus permanen.">
                                             @csrf
                                             @method('DELETE')
-                                            <button type="submit" class="btn btn-sm btn-danger text-white border" title="Hapus">
+                                            <button type="submit" class="btn btn-sm btn-danger text-white border" title="Hapus User">
                                                 <i class="bi bi-trash"></i>
                                             </button>
                                         </form>

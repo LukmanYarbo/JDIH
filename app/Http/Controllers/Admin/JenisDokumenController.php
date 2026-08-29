@@ -3,13 +3,14 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\JenisDokumen;
 use Illuminate\Http\Request;
 
 class JenisDokumenController extends Controller
 {
     public function index()
     {
-        $categories = \App\Models\JenisDokumen::withCount('dokumenHukums')->get();
+        $categories = JenisDokumen::withCount('dokumenHukums')->orderBy('tipe_dokumen')->orderBy('urutan')->get();
         return view('admin.categories.index', compact('categories'));
     }
 
@@ -21,27 +22,31 @@ class JenisDokumenController extends Controller
     public function store(Request $request)
     {
         $request->validate([
+            'tipe_dokumen' => 'required|string|in:Produk Hukum,Monografi Hukum,Artikel Hukum,Putusan Pengadilan',
             'nama' => 'required|string|max:255',
             'kode' => 'required|string|max:50|unique:jenis_dokumens,kode',
             'deskripsi' => 'nullable|string',
+            'urutan' => 'nullable|integer',
         ]);
 
-        \App\Models\JenisDokumen::create($request->all());
+        JenisDokumen::create($request->all());
 
         return redirect()->route('admin.categories.index')->with('success', 'Kategori Dokumen berhasil ditambahkan.');
     }
 
-    public function edit(\App\Models\JenisDokumen $category)
+    public function edit(JenisDokumen $category)
     {
         return view('admin.categories.edit', compact('category'));
     }
 
-    public function update(Request $request, \App\Models\JenisDokumen $category)
+    public function update(Request $request, JenisDokumen $category)
     {
         $request->validate([
+            'tipe_dokumen' => 'required|string|in:Produk Hukum,Monografi Hukum,Artikel Hukum,Putusan Pengadilan',
             'nama' => 'required|string|max:255',
             'kode' => 'required|string|max:50|unique:jenis_dokumens,kode,' . $category->id,
             'deskripsi' => 'nullable|string',
+            'urutan' => 'nullable|integer',
         ]);
 
         $category->update($request->all());
@@ -49,7 +54,7 @@ class JenisDokumenController extends Controller
         return redirect()->route('admin.categories.index')->with('success', 'Kategori Dokumen berhasil diperbarui.');
     }
 
-    public function destroy(\App\Models\JenisDokumen $category)
+    public function destroy(JenisDokumen $category)
     {
         $category->delete();
         return redirect()->route('admin.categories.index')->with('success', 'Kategori Dokumen berhasil dihapus.');

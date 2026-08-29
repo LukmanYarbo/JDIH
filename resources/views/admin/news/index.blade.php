@@ -65,10 +65,10 @@
                                     <a href="{{ route('admin.news.edit', $item->id) }}" class="btn btn-sm btn-light border" title="Edit">
                                         <i class="bi bi-pencil-square"></i>
                                     </a>
-                                    <form action="{{ route('admin.news.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus berita ini?')" class="m-0">
+                                    <form action="{{ route('admin.news.destroy', $item->id) }}" method="POST" class="m-0 delete-form" data-title="Hapus Berita Kegiatan?" data-confirm="Berita '{{ $item->judul }}' akan dihapus permanen.">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger text-white border" title="Hapus">
+                                        <button type="submit" class="btn btn-sm btn-danger text-white border" title="Hapus Berita">
                                             <i class="bi bi-trash"></i>
                                         </button>
                                     </form>

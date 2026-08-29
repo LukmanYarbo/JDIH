@@ -2,8 +2,9 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\User;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class UserSeeder extends Seeder
 {
@@ -12,28 +13,34 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        $admin = \App\Models\User::create([
-            'name' => 'Administrator JDIH',
-            'email' => 'admin@gmail.com',
-            'password' => \Illuminate\Support\Facades\Hash::make('password'),
-            'email_verified_at' => now(),
-        ]);
-        $admin->assignRole('Admin');
+        $admin = User::firstOrCreate(
+            ['email' => 'admin@gmail.com'],
+            [
+                'name' => 'Administrator JDIH',
+                'password' => Hash::make('password'),
+                'email_verified_at' => now(),
+            ]
+        );
+        $admin->syncRoles(['Admin']);
 
-        $operator = \App\Models\User::create([
-            'name' => 'Operator JDIH',
-            'email' => 'operator@gmail.com',
-            'password' => \Illuminate\Support\Facades\Hash::make('password'),
-            'email_verified_at' => now(),
-        ]);
-        $operator->assignRole('Operator');
+        $operator = User::firstOrCreate(
+            ['email' => 'operator@gmail.com'],
+            [
+                'name' => 'Operator JDIH',
+                'password' => Hash::make('password'),
+                'email_verified_at' => now(),
+            ]
+        );
+        $operator->syncRoles(['Operator']);
 
-        $user = \App\Models\User::create([
-            'name' => 'User Publik',
-            'email' => 'user@gmail.com',
-            'password' => \Illuminate\Support\Facades\Hash::make('password'),
-            'email_verified_at' => now(),
-        ]);
-        $user->assignRole('User');
+        $user = User::firstOrCreate(
+            ['email' => 'user@gmail.com'],
+            [
+                'name' => 'User Publik',
+                'password' => Hash::make('password'),
+                'email_verified_at' => now(),
+            ]
+        );
+        $user->syncRoles(['User']);
     }
 }

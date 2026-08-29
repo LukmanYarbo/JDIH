@@ -1,52 +1,68 @@
 @extends('layouts.admin')
 
-@section('title', 'Kategori Dokumen - JDIH DPRD Bolmut')
-@section('page_title', 'Kategori Dokumen')
+@section('title', 'Kategori Dokumen - JDIH DPRD')
+@section('page_title', 'Kategori & Jenis Dokumen')
 
 @section('content')
     <div class="card border-0 shadow-sm p-4 bg-white">
-        <div class="d-flex align-items-center justify-content-between mb-4">
-            <h5 class="fw-bold text-dark m-0"><i class="bi bi-tags me-1"></i> Daftar Kategori</h5>
+        <div class="d-flex justify-content-between align-items-center mb-4">
             <a href="{{ route('admin.categories.create') }}" class="btn btn-primary rounded-pill px-4">
                 <i class="bi bi-plus-lg me-1"></i> Tambah Kategori
             </a>
+            <div class="text-muted fs-8">
+                Total Kategori: <strong>{{ $categories->count() }}</strong>
+            </div>
         </div>
 
+        @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show fs-7" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
         <div class="table-responsive">
-            <table class="table table-hover align-middle">
-                <thead>
-                    <tr class="text-muted fs-7">
-                        <th style="width: 80px;">Kode</th>
-                        <th>Nama Kategori</th>
-                        <th>Deskripsi</th>
-                        <th class="text-center" style="width: 150px;">Total Dokumen</th>
-                        <th class="text-end" style="width: 150px;">Aksi</th>
+            <table class="table table-hover align-middle mb-0 fs-7">
+                <thead class="table-light">
+                    <tr>
+                        <th style="width: 60px;">Urutan</th>
+                        <th>Tipe Dokumen</th>
+                        <th>Kode</th>
+                        <th>Nama Jenis Dokumen</th>
+                        <th>Jumlah Dokumen</th>
+                        <th class="text-end">Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($categories as $cat)
-                        <tr class="fs-7.5">
+                        <tr>
+                            <td class="text-center font-monospace">{{ $cat->urutan }}</td>
                             <td>
-                                <span class="badge bg-primary bg-opacity-10 text-primary px-3 py-1.5 fw-semibold font-monospace fs-7">
-                                    {{ $cat->kode }}
+                                <span class="badge bg-primary bg-opacity-10 text-primary fw-semibold px-2 py-1 fs-9 rounded-pill">
+                                    {{ $cat->tipe_dokumen }}
                                 </span>
                             </td>
-                            <td class="fw-bold text-dark fs-6">{{ $cat->nama }}</td>
-                            <td class="text-muted">{{ $cat->deskripsi ?: '-' }}</td>
-                            <td class="text-center">
-                                <span class="badge bg-light text-dark border px-3 py-1.5 fw-bold fs-7">
-                                    {{ $cat->dokumen_hukums_count }}
+                            <td>
+                                <span class="badge bg-secondary font-monospace">{{ $cat->kode }}</span>
+                            </td>
+                            <td>
+                                <div class="fw-bold text-dark">{{ $cat->nama }}</div>
+                                <small class="text-muted">{{ Str::limit($cat->deskripsi, 60) }}</small>
+                            </td>
+                            <td>
+                                <span class="badge bg-success bg-opacity-10 text-success fs-8 px-2 py-1 rounded-pill">
+                                    {{ $cat->dokumen_hukums_count }} Dokumen
                                 </span>
                             </td>
                             <td class="text-end">
-                                <div class="d-flex justify-content-end gap-2">
-                                    <a href="{{ route('admin.categories.edit', $cat->id) }}" class="btn btn-sm btn-light border" title="Edit">
-                                        <i class="bi bi-pencil-square"></i>
+                                <div class="btn-group btn-group-sm">
+                                    <a href="{{ route('admin.categories.edit', $cat->id) }}" class="btn btn-outline-primary" title="Edit">
+                                        <i class="bi bi-pencil"></i>
                                     </a>
-                                    <form action="{{ route('admin.categories.destroy', $cat->id) }}" method="POST" onsubmit="return confirm('Apakah Anda yakin ingin menghapus kategori ini? Semua dokumen yang terkait juga akan dihapus!')" class="m-0">
+                                    <form action="{{ route('admin.categories.destroy', $cat->id) }}" method="POST" class="d-inline delete-form" data-title="Hapus Kategori Dokumen?" data-confirm="Menghapus kategori '{{ $cat->nama }}' dapat mempengaruhi relasi dokumen terkait.">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger text-white border" title="Hapus">
+                                        <button type="submit" class="btn btn-outline-danger" title="Hapus Kategori">
                                             <i class="bi bi-trash"></i>
                                         </button>
                                     </form>
@@ -55,7 +71,9 @@
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="5" class="text-center py-4 text-muted">Belum ada kategori dokumen.</td>
+                            <td colspan="6" class="text-center py-4 text-muted">
+                                Belum ada kategori yang ditambahkan.
+                            </td>
                         </tr>
                     @endforelse
                 </tbody>

@@ -1,52 +1,137 @@
 <!-- Footer Area -->
 <footer class="pt-5 pb-3">
     <div class="container">
-        <div class="row g-4 justify-content-between">
-            <div class="col-lg-5">
-                <div class="d-flex align-items-center mb-3">
-                    <i class="bi bi-bank2 text-warning fs-3 me-2"></i>
-                    <span class="fs-4 fw-bold text-white">JDIH DPRD Bolmut</span>
-                </div>
-                <p class="text-white-50">
-                    Jaringan Dokumentasi dan Informasi Hukum Sekretariat Dewan Perwakilan Rakyat Daerah Kabupaten Bolaang Mongondow Utara. Menyediakan data produk hukum legislative secara transparan, kredibel, dan mudah diakses.
-                </p>
-                <div class="d-flex gap-3 fs-5 mt-4">
-                    <a href="#" class="text-white-50"><i class="bi bi-facebook"></i></a>
-                    <a href="#" class="text-white-50"><i class="bi bi-twitter-x"></i></a>
-                    <a href="#" class="text-white-50"><i class="bi bi-instagram"></i></a>
-                    <a href="#" class="text-white-50"><i class="bi bi-youtube"></i></a>
-                </div>
-            </div>
+        <div class="row g-4 pb-4">
+            
+            <!-- Col 1: Popular Documents -->
             <div class="col-lg-3 col-md-6">
-                <h5 class="text-white fw-bold mb-3">Tautan Cepat</h5>
-                <ul class="list-unstyled d-flex flex-column gap-2">
-                    <li><a href="{{ route('portal.home') }}"><i class="bi bi-chevron-right me-1 fs-8"></i> Beranda</a></li>
-                    <li><a href="{{ route('portal.search') }}"><i class="bi bi-chevron-right me-1 fs-8"></i> Cari Produk Hukum</a></li>
-                    <li><a href="{{ route('portal.news.list') }}"><i class="bi bi-chevron-right me-1 fs-8"></i> Berita Hukum</a></li>
-                    <li><a href="{{ route('portal.profile') }}"><i class="bi bi-chevron-right me-1 fs-8"></i> Tentang JDIH</a></li>
-                    <li><a href="{{ route('portal.gallery') }}"><i class="bi bi-chevron-right me-1 fs-8"></i> Galeri Dokumentasi</a></li>
+                <h5 class="footer-heading">Produk Hukum Terpopuler</h5>
+                <ul class="list-unstyled d-flex flex-column gap-2 fs-8">
+                    @php
+                        $footerPopular = \App\Models\DokumenHukum::orderBy('hits', 'desc')->take(5)->get();
+                    @endphp
+                    @forelse($footerPopular as $doc)
+                        <li>
+                            <a href="{{ route('portal.document.show', $doc->id) }}" class="d-block text-truncate" title="{{ $doc->judul }}">
+                                <i class="bi bi-chevron-right me-1 text-warning"></i> {{ $doc->judul }}
+                            </a>
+                            <small class="text-white-50 fs-9 ps-3">
+                                <i class="bi bi-eye"></i> {{ number_format($doc->hits) }} views | <i class="bi bi-download"></i> {{ number_format($doc->downloads) }} unduhan
+                            </small>
+                        </li>
+                    @empty
+                        <li class="text-white-50">Belum ada dokumen populer.</li>
+                    @endforelse
                 </ul>
             </div>
-            <div class="col-lg-4 col-md-6">
-                <h5 class="text-white fw-bold mb-3">Hubungi Kami</h5>
-                <p class="text-white-50 mb-2">
-                    <i class="bi bi-geo-alt-fill text-warning me-2"></i> Jl. Trans Sulawesi, Boroko, Kab. Bolaang Mongondow Utara, Sulawesi Utara.
-                </p>
-                <p class="text-white-50 mb-2">
-                    <i class="bi bi-telephone-fill text-warning me-2"></i> (0434) 123456
-                </p>
-                <p class="text-white-50">
-                    <i class="bi bi-envelope-fill text-warning me-2"></i> sekretariat@dprd-bolmutkab.go.id
-                </p>
+
+            <!-- Col 2: Alur Ranperda Prioritas -->
+            <div class="col-lg-3 col-md-6">
+                <h5 class="footer-heading">Alur Ranperda Terkini</h5>
+                <ul class="list-unstyled d-flex flex-column gap-2 fs-8">
+                    @php
+                        $footerRanperda = \App\Models\Ranperda::orderBy('tahun', 'desc')->orderBy('id', 'desc')->take(5)->get();
+                    @endphp
+                    @forelse($footerRanperda as $r)
+                        <li>
+                            <a href="{{ route('portal.ranperda', ['tahun' => $r->tahun]) }}" class="d-block text-truncate" title="{{ $r->judul }}">
+                                <i class="bi bi-file-earmark-code me-1 text-warning"></i> {{ $r->judul }}
+                            </a>
+                            <small class="text-warning fs-9 ps-3">
+                                <i class="bi bi-arrow-right-circle"></i> {{ $r->tahapan_name }} ({{ $r->tahun }})
+                            </small>
+                        </li>
+                    @empty
+                        <li class="text-white-50">Belum ada usulan Ranperda.</li>
+                    @endforelse
+                </ul>
             </div>
+
+            <!-- Col 3: Sejarah JDIHN & Integrasi -->
+            <div class="col-lg-3 col-md-6">
+                <h5 class="footer-heading">Jaringan JDIHN</h5>
+                <p class="fs-8 text-white-50 lh-base mb-3">
+                    Ide membentuk <strong>Jaringan Dokumentasi dan Informasi Hukum Nasional (JDIHN)</strong> secara historis melekat erat dengan pembangunan hukum nasional dalam upaya mewujudkan supremasi hukum dan keterbukaan informasi.
+                </p>
+                <div class="d-flex align-items-center gap-2">
+                    <div class="bg-white p-2 rounded-2 text-center" style="width: 80px;">
+                        <i class="bi bi-shield-shaded fs-3 text-primary"></i>
+                        <div class="text-dark fw-bold" style="font-size: 0.65rem;">JDIHN BPHN</div>
+                    </div>
+                    <div class="fs-8 text-white-50">
+                        Terintegrasi dengan basis data nasional Kemenkumham RI.
+                    </div>
+                </div>
+            </div>
+
+            <!-- Col 4: Kontak & Social Media -->
+            <div class="col-lg-3 col-md-6">
+                <h5 class="footer-heading">Sekretariat DPRD</h5>
+                <p class="fs-8 text-white-50 mb-2">
+                    <i class="bi bi-geo-alt-fill text-warning me-2"></i> {{ $gProfil->alamat ?? 'Gedung DPRD, Bagian Persidangan & Perundang-Undangan Sekretariat DPRD Kota Medan' }}
+                </p>
+                <p class="fs-8 text-white-50 mb-2">
+                    <i class="bi bi-telephone-fill text-warning me-2"></i> {{ $gProfil->telepon ?? '061-4537728' }}
+                </p>
+                <p class="fs-8 text-white-50 mb-3">
+                    <i class="bi bi-envelope-fill text-warning me-2"></i> {{ $gProfil->email ?? 'jdih@dprd.medan.go.id' }}
+                </p>
+
+                <div class="d-flex gap-2 mt-2">
+                    @if(isset($gProfil) && $gProfil->facebook)
+                        <a href="{{ $gProfil->facebook }}" target="_blank" class="btn btn-sm btn-outline-light rounded-circle" style="width:36px; height:36px; display:inline-flex; align-items:center; justify-content:center;" title="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                    @else
+                        <a href="https://www.facebook.com/sekretariat.dprdmedan.3" target="_blank" class="btn btn-sm btn-outline-light rounded-circle" style="width:36px; height:36px; display:inline-flex; align-items:center; justify-content:center;" title="Facebook">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                    @endif
+
+                    @if(isset($gProfil) && $gProfil->instagram)
+                        <a href="{{ $gProfil->instagram }}" target="_blank" class="btn btn-sm btn-outline-light rounded-circle" style="width:36px; height:36px; display:inline-flex; align-items:center; justify-content:center;" title="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    @else
+                        <a href="https://www.instagram.com/humasdprdkotamedan/" target="_blank" class="btn btn-sm btn-outline-light rounded-circle" style="width:36px; height:36px; display:inline-flex; align-items:center; justify-content:center;" title="Instagram">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                    @endif
+
+                    @if(isset($gProfil) && $gProfil->youtube)
+                        <a href="{{ $gProfil->youtube }}" target="_blank" class="btn btn-sm btn-outline-light rounded-circle" style="width:36px; height:36px; display:inline-flex; align-items:center; justify-content:center;" title="YouTube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    @else
+                        <a href="https://www.youtube.com/channel/UCQozcUiMTsOe4w5TL8UzLwQ" target="_blank" class="btn btn-sm btn-outline-light rounded-circle" style="width:36px; height:36px; display:inline-flex; align-items:center; justify-content:center;" title="YouTube">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    @endif
+
+                    @if(isset($gProfil) && $gProfil->twitter)
+                        <a href="{{ $gProfil->twitter }}" target="_blank" class="btn btn-sm btn-outline-light rounded-circle" style="width:36px; height:36px; display:inline-flex; align-items:center; justify-content:center;" title="Twitter / X">
+                            <i class="fab fa-x-twitter"></i>
+                        </a>
+                    @else
+                        <a href="https://twitter.com/dprdmedan1" target="_blank" class="btn btn-sm btn-outline-light rounded-circle" style="width:36px; height:36px; display:inline-flex; align-items:center; justify-content:center;" title="Twitter / X">
+                            <i class="fab fa-x-twitter"></i>
+                        </a>
+                    @endif
+                </div>
+            </div>
+
         </div>
-        <hr class="border-secondary my-4">
-        <div class="row align-items-center">
-            <div class="col-md-6 text-center text-md-start">
-                <small class="text-white-50">&copy; {{ date('Y') }} Sekretariat DPRD Kabupaten Bolaang Mongondow Utara. All Rights Reserved.</small>
+
+        <hr class="border-secondary my-3 opacity-25">
+
+        <div class="row align-items-center fs-8 text-white-50">
+            <div class="col-md-6 text-center text-md-start mb-2 mb-md-0">
+                &copy; {{ date('Y') }} <strong>Sekretariat DPRD Kota Medan</strong>. All Rights Reserved.
             </div>
-            <div class="col-md-6 text-center text-md-end mt-2 mt-md-0">
-                <small class="text-white-50">Powered by <a href="#" class="text-white">Laravel 12</a> &amp; <a href="#" class="text-white">Bootstrap 5</a></small>
+            <div class="col-md-6 text-center text-md-end">
+                <span class="badge bg-secondary bg-opacity-25 text-white-50 px-3 py-1 font-monospace">
+                    <i class="bi bi-people-fill text-warning me-1"></i> Pengunjung: 1,213,959 | Online: 24
+                </span>
             </div>
         </div>
     </div>

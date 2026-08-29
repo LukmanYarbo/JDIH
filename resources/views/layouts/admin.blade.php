@@ -275,6 +275,8 @@
 
     <!-- Bootstrap 5 Bundle JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- SweetAlert2 for Modern UI Confirmations -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
         document.getElementById('sidebarToggle')?.addEventListener('click', function() {
             document.getElementById('adminSidebar')?.classList.toggle('show');
@@ -304,6 +306,51 @@
             document.documentElement.setAttribute('data-theme', newTheme);
             localStorage.setItem('admin-theme', newTheme);
             updateToggleIcon(newTheme);
+        });
+
+        // Universal Modern UI Delete Confirmation
+        window.confirmAction = function(target, title = 'Apakah Anda Yakin?', text = 'Tindakan ini tidak dapat dibatalkan.', btnText = 'Ya, Lanjutkan') {
+            Swal.fire({
+                title: title,
+                text: text,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#ef4444',
+                cancelButtonColor: '#64748b',
+                confirmButtonText: '<i class="bi bi-trash3-fill me-1"></i> ' + btnText,
+                cancelButtonText: 'Batal',
+                reverseButtons: true,
+                focusCancel: true,
+                customClass: {
+                    popup: 'rounded-4 shadow-lg border-0',
+                    confirmButton: 'rounded-pill px-4 py-2 fw-semibold',
+                    cancelButton: 'rounded-pill px-4 py-2'
+                }
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    if (typeof target === 'string') {
+                        document.getElementById(target)?.submit();
+                    } else if (typeof target === 'function') {
+                        target();
+                    }
+                }
+            });
+        };
+
+        // Auto-bind on forms with class 'delete-form' or attribute 'data-confirm'
+        document.addEventListener('DOMContentLoaded', function () {
+            document.querySelectorAll('form.delete-form, form[data-confirm]').forEach(form => {
+                form.addEventListener('submit', function (e) {
+                    e.preventDefault();
+                    const title = form.getAttribute('data-title') || 'Konfirmasi Penghapusan';
+                    const text = form.getAttribute('data-confirm') || 'Data yang dihapus tidak dapat dipulihkan kembali.';
+                    const btnText = form.getAttribute('data-btn-text') || 'Ya, Hapus';
+
+                    window.confirmAction(() => {
+                        form.submit();
+                    }, title, text, btnText);
+                });
+            });
         });
     </script>
     @yield('scripts')

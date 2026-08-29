@@ -2,7 +2,7 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Galeri;
 use Illuminate\Database\Seeder;
 
 class GaleriSeeder extends Seeder
@@ -12,34 +12,38 @@ class GaleriSeeder extends Seeder
      */
     public function run(): void
     {
-        // Seed video items
-        \App\Models\Galeri::create([
-            'judul' => 'Rapat Paripurna DPRD Pembahasan Ranperda Tata Ruang Wilayah',
-            'tipe' => 'video',
-            'video_url' => 'https://www.youtube.com/embed/tgbNymZ7vqY',
-            'keterangan' => 'Rapat Paripurna Dewan Perwakilan Rakyat Daerah (DPRD) Kabupaten Bolaang Mongondow Utara.',
-        ]);
+        $items = [
+            [
+                'judul' => 'Rapat Paripurna DPRD Pembahasan Ranperda Tata Ruang Wilayah',
+                'tipe' => 'video',
+                'video_url' => 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+                'keterangan' => 'Rapat Paripurna Dewan Perwakilan Rakyat Daerah (DPRD) pembahasan regulasi tata ruang wilayah kota.',
+            ],
+            [
+                'judul' => 'Pelaksanaan Bimbingan Teknis & Pengelolaan JDIH Terpadu',
+                'tipe' => 'video',
+                'video_url' => 'https://www.youtube.com/embed/dQw4w9WgXcQ',
+                'keterangan' => 'Workshop peningkatan kapasitas operator dan pengelola perpustakaan hukum digital JDIH.',
+            ],
+            [
+                'judul' => 'Sosialisasi Peraturan Daerah Kawasan Tanpa Rokok',
+                'tipe' => 'foto',
+                'file_path' => null,
+                'keterangan' => 'Sosialisasi produk hukum teranyar kepada tokoh masyarakat, pemuda, dan tenaga kesehatan.',
+            ],
+            [
+                'judul' => 'Rapat Dengar Pendapat Umum (RDPU) Bersama Komisi dan Warga',
+                'tipe' => 'foto',
+                'file_path' => null,
+                'keterangan' => 'Mendengarkan aspirasi dan masukan penyusunan regulasi perlindungan sosial.',
+            ],
+        ];
 
-        \App\Models\Galeri::create([
-            'judul' => 'Kunjungan Kerja Komisi I DPRD Bolmut ke DPRD Provinsi Sulawesi Utara',
-            'tipe' => 'video',
-            'video_url' => 'https://www.youtube.com/embed/dQw4w9WgXcQ',
-            'keterangan' => 'Koordinasi dan konsultasi antarlembaga legislatif daerah terkait penguatan pengawasan pembangunan.',
-        ]);
-
-        // Seed photo items (pointing to generated files)
-        \App\Models\Galeri::create([
-            'judul' => 'Sosialisasi Perda Nomor 1 Tahun 2026 di Kecamatan Kaidipang',
-            'tipe' => 'foto',
-            'file_path' => 'uploads/gallery/photo1.jpg',
-            'keterangan' => 'Sosialisasi produk hukum teranyar DPRD Kabupaten Bolaang Mongondow Utara kepada tokoh masyarakat.',
-        ]);
-
-        \App\Models\Galeri::create([
-            'judul' => 'Pelantikan Anggota BPD se-Kabupaten Bolaang Mongondow Utara',
-            'tipe' => 'foto',
-            'file_path' => 'uploads/gallery/photo2.jpg',
-            'keterangan' => 'Dokumentasi acara resmi pelantikan Badan Permusyawaratan Desa oleh Bupati dan Pimpinan DPRD.',
-        ]);
+        foreach ($items as $item) {
+            Galeri::updateOrCreate(
+                ['judul' => $item['judul']],
+                $item
+            );
+        }
     }
 }

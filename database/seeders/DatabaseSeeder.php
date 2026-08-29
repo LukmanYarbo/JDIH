@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -23,6 +22,10 @@ class DatabaseSeeder extends Seeder
             BeritaHukumSeeder::class,
             GaleriSeeder::class,
             ProfilSeeder::class,
+            AgendaSeeder::class,
+            RanperdaSeeder::class,
+            BuletinSeeder::class,
+            IkmVoteSeeder::class,
         ]);
     }
 }
