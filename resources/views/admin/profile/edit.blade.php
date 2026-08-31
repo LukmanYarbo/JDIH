@@ -24,6 +24,60 @@
                         <!-- Left column: Text Content -->
                         <div class="col-lg-8">
                             
+                            <!-- Section 1: Identitas Kantor & Sambutan Welcome -->
+                            <div class="card bg-light border-0 p-3 mb-4 rounded-3">
+                                <h6 class="fw-bold text-primary border-bottom pb-2 mb-3">
+                                    <i class="bi bi-buildings-fill me-1"></i> Identitas Nama Kantor &amp; Teks Sambutan (Welcome)
+                                </h6>
+
+                                <div class="mb-3">
+                                    <label for="nama_kantor" class="form-label fs-7 fw-semibold text-dark">
+                                        Nama Kantor / Lembaga Lengkap <span class="text-danger">*</span>
+                                    </label>
+                                    <input type="text" name="nama_kantor" id="nama_kantor" class="form-control form-control-lg fs-6 fw-semibold @error('nama_kantor') is-invalid @enderror" 
+                                           value="{{ old('nama_kantor', $profile->nama_kantor) }}" 
+                                           placeholder="Contoh: Dewan Perwakilan Rakyat Daerah Kabupaten Bolaang Mongondow Utara">
+                                    <small class="text-muted fs-8">Nama resmi kantor/lembaga yang ditampilkan di header, dokumen, dan halaman tentang kami.</small>
+                                </div>
+
+                                <div class="row g-3 mb-3">
+                                    <div class="col-md-6">
+                                        <label for="nama_singkat_kantor" class="form-label fs-7 fw-semibold text-muted">Nama Singkat / Brand Header</label>
+                                        <input type="text" name="nama_singkat_kantor" id="nama_singkat_kantor" class="form-control" 
+                                               value="{{ old('nama_singkat_kantor', $profile->nama_singkat_kantor) }}" 
+                                               placeholder="Contoh: DPRD Kabupaten Bolaang Mongondow Utara">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="nama_wilayah" class="form-label fs-7 fw-semibold text-muted">Nama Wilayah / Daerah (Huruf Kapital)</label>
+                                        <input type="text" name="nama_wilayah" id="nama_wilayah" class="form-control" 
+                                               value="{{ old('nama_wilayah', $profile->nama_wilayah) }}" 
+                                               placeholder="Contoh: KABUPATEN BOLAANG MONGONDOW UTARA">
+                                    </div>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="nama_sekretariat" class="form-label fs-7 fw-semibold text-muted">Nama Sekretariat / Pengelola</label>
+                                    <input type="text" name="nama_sekretariat" id="nama_sekretariat" class="form-control" 
+                                           value="{{ old('nama_sekretariat', $profile->nama_sekretariat) }}" 
+                                           placeholder="Contoh: Sekretariat DPRD Kabupaten Bolaang Mongondow Utara">
+                                </div>
+
+                                <div class="row g-3">
+                                    <div class="col-md-6">
+                                        <label for="welcome_title" class="form-label fs-7 fw-semibold text-muted">Judul Sambutan Welcome (Hero Title)</label>
+                                        <input type="text" name="welcome_title" id="welcome_title" class="form-control" 
+                                               value="{{ old('welcome_title', $profile->welcome_title) }}" 
+                                               placeholder="JARINGAN DOKUMENTASI DAN INFORMASI HUKUM">
+                                    </div>
+                                    <div class="col-md-6">
+                                        <label for="welcome_subtitle" class="form-label fs-7 fw-semibold text-muted">Subjudul Sambutan Welcome (Hero Subtitle)</label>
+                                        <input type="text" name="welcome_subtitle" id="welcome_subtitle" class="form-control" 
+                                               value="{{ old('welcome_subtitle', $profile->welcome_subtitle) }}" 
+                                               placeholder="DEWAN PERWAKILAN RAKYAT DAERAH KABUPATEN BOLAANG MONGONDOW UTARA">
+                                    </div>
+                                </div>
+                            </div>
+
                             <h6 class="fw-bold text-primary border-bottom pb-2 mb-3"><i class="bi bi-bullseye me-1"></i> Visi &amp; Misi</h6>
                             <div class="mb-3">
                                 <label for="visi" class="form-label fs-7 fw-semibold text-muted">Visi JDIH DPRD</label>

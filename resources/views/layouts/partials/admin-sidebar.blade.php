@@ -3,14 +3,14 @@
     <div class="sidebar-header">
         <a href="{{ route('portal.home') }}" class="sidebar-brand">
             @if(isset($gProfil) && $gProfil->logo)
-                <img src="{{ asset($gProfil->logo) }}" alt="Logo DPRD" class="me-2"
+                <img src="{{ asset($gProfil->logo) }}" alt="Logo {{ $gProfil->nama_singkat_kantor ?? 'DPRD' }}" class="me-2"
                     style="height: 32px; width: auto; object-fit: contain;">
             @else
                 <i class="bi bi-bank2 text-warning fs-3 me-2"></i>
             @endif
             <div>
-                <span class="fs-6 d-block lh-1 text-white">JDIH DPRD</span>
-                <small class="fs-9 text-white-50 font-monospace">KABUPATEN BOLAANG MONGONDOW UTARA</small>
+                <span class="fs-6 d-block lh-1 text-white">{{ $gProfil->nama_singkat_kantor ?? 'JDIH DPRD' }}</span>
+                <small class="fs-9 text-white-50 font-monospace text-uppercase">{{ $gProfil->nama_wilayah ?? 'KABUPATEN BOLAANG MONGONDOW UTARA' }}</small>
             </div>
         </a>
     </div>
@@ -59,7 +59,7 @@
             </a>
             <a href="{{ route('admin.profile.edit') }}"
                 class="sidebar-item {{ Route::is('admin.profile.*') ? 'active' : '' }}">
-                <i class="bi bi-bank"></i> Profil, SOP &amp; Dasar Hukum
+                <i class="bi bi-bank"></i> Identitas &amp; Profil Lembaga
             </a>
         @endif
 

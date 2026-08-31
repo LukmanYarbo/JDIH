@@ -83,7 +83,7 @@
                 <i class="bi bi-bank2 text-primary display-5 d-block mb-3"></i>
             </a>
             <h4 class="fw-bold text-dark m-0">Login Dashboard</h4>
-            <small class="text-muted">JDIH DPRD Bolaang Mongondow Utara</small>
+            <small class="text-muted">JDIH {{ $gProfil->nama_singkat_kantor ?? ($gProfil->nama_kantor ?? 'DPRD') }}</small>
         </div>
         <div class="login-body">
             

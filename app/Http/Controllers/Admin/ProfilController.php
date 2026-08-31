@@ -27,6 +27,12 @@ class ProfilController extends Controller
         ]);
 
         $request->validate([
+            'nama_kantor' => 'nullable|string|max:255',
+            'nama_singkat_kantor' => 'nullable|string|max:100',
+            'nama_wilayah' => 'nullable|string|max:150',
+            'nama_sekretariat' => 'nullable|string|max:255',
+            'welcome_title' => 'nullable|string|max:255',
+            'welcome_subtitle' => 'nullable|string|max:255',
             'visi' => 'required|string',
             'misi' => 'required|string',
             'sejarah' => 'nullable|string',

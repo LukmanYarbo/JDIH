@@ -66,24 +66,20 @@
 
             <!-- Col 4: Kontak & Social Media -->
             <div class="col-lg-3 col-md-6">
-                <h5 class="footer-heading">Sekretariat DPRD</h5>
+                <h5 class="footer-heading">{{ $gProfil->nama_sekretariat ?? 'Sekretariat DPRD' }}</h5>
                 <p class="fs-8 text-white-50 mb-2">
-                    <i class="bi bi-geo-alt-fill text-warning me-2"></i> {{ $gProfil->alamat ?? 'Gedung DPRD, Bagian Persidangan & Perundang-Undangan Sekretariat DPRD Kota Medan' }}
+                    <i class="bi bi-geo-alt-fill text-warning me-2"></i> {{ $gProfil->alamat ?? 'Gedung DPRD, Jl. Trans Sulawesi' }}
                 </p>
                 <p class="fs-8 text-white-50 mb-2">
-                    <i class="bi bi-telephone-fill text-warning me-2"></i> {{ $gProfil->telepon ?? '061-4537728' }}
+                    <i class="bi bi-telephone-fill text-warning me-2"></i> {{ $gProfil->telepon ?? '-' }}
                 </p>
                 <p class="fs-8 text-white-50 mb-3">
-                    <i class="bi bi-envelope-fill text-warning me-2"></i> {{ $gProfil->email ?? 'jdih@dprd.medan.go.id' }}
+                    <i class="bi bi-envelope-fill text-warning me-2"></i> {{ $gProfil->email ?? 'jdih@dprd.go.id' }}
                 </p>
 
                 <div class="d-flex gap-2 mt-2">
                     @if(isset($gProfil) && $gProfil->facebook)
                         <a href="{{ $gProfil->facebook }}" target="_blank" class="btn btn-sm btn-outline-light rounded-circle" style="width:36px; height:36px; display:inline-flex; align-items:center; justify-content:center;" title="Facebook">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                    @else
-                        <a href="https://www.facebook.com/sekretariat.dprdmedan.3" target="_blank" class="btn btn-sm btn-outline-light rounded-circle" style="width:36px; height:36px; display:inline-flex; align-items:center; justify-content:center;" title="Facebook">
                             <i class="fab fa-facebook-f"></i>
                         </a>
                     @endif
@@ -92,28 +88,16 @@
                         <a href="{{ $gProfil->instagram }}" target="_blank" class="btn btn-sm btn-outline-light rounded-circle" style="width:36px; height:36px; display:inline-flex; align-items:center; justify-content:center;" title="Instagram">
                             <i class="fab fa-instagram"></i>
                         </a>
-                    @else
-                        <a href="https://www.instagram.com/humasdprdkotamedan/" target="_blank" class="btn btn-sm btn-outline-light rounded-circle" style="width:36px; height:36px; display:inline-flex; align-items:center; justify-content:center;" title="Instagram">
-                            <i class="fab fa-instagram"></i>
-                        </a>
                     @endif
 
                     @if(isset($gProfil) && $gProfil->youtube)
                         <a href="{{ $gProfil->youtube }}" target="_blank" class="btn btn-sm btn-outline-light rounded-circle" style="width:36px; height:36px; display:inline-flex; align-items:center; justify-content:center;" title="YouTube">
                             <i class="fab fa-youtube"></i>
                         </a>
-                    @else
-                        <a href="https://www.youtube.com/channel/UCQozcUiMTsOe4w5TL8UzLwQ" target="_blank" class="btn btn-sm btn-outline-light rounded-circle" style="width:36px; height:36px; display:inline-flex; align-items:center; justify-content:center;" title="YouTube">
-                            <i class="fab fa-youtube"></i>
-                        </a>
                     @endif
 
                     @if(isset($gProfil) && $gProfil->twitter)
                         <a href="{{ $gProfil->twitter }}" target="_blank" class="btn btn-sm btn-outline-light rounded-circle" style="width:36px; height:36px; display:inline-flex; align-items:center; justify-content:center;" title="Twitter / X">
-                            <i class="fab fa-x-twitter"></i>
-                        </a>
-                    @else
-                        <a href="https://twitter.com/dprdmedan1" target="_blank" class="btn btn-sm btn-outline-light rounded-circle" style="width:36px; height:36px; display:inline-flex; align-items:center; justify-content:center;" title="Twitter / X">
                             <i class="fab fa-x-twitter"></i>
                         </a>
                     @endif
@@ -126,7 +110,7 @@
 
         <div class="row align-items-center fs-8 text-white-50">
             <div class="col-md-6 text-center text-md-start mb-2 mb-md-0">
-                &copy; {{ date('Y') }} <strong>Sekretariat DPRD Kota Medan</strong>. All Rights Reserved.
+                &copy; {{ date('Y') }} <strong>{{ $gProfil->nama_sekretariat ?? ($gProfil->nama_kantor ?? 'Sekretariat DPRD') }}</strong>. All Rights Reserved.
             </div>
             <div class="col-md-6 text-center text-md-end">
                 <span class="badge bg-secondary bg-opacity-25 text-white-50 px-3 py-1 font-monospace">

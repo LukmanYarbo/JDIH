@@ -1,6 +1,6 @@
 @extends('layouts.portal')
 
-@section('title', 'Selamat Datang di Portal JDIH DPRD Kabupaten Bolaang Mongondow Utara')
+@section('title', 'Selamat Datang di Portal JDIH ' . ($profil->nama_singkat_kantor ?? ($profil->nama_kantor ?? 'DPRD Kabupaten Bolaang Mongondow Utara')))
 
 @section('content')
 
@@ -28,7 +28,7 @@
                 @empty
                     <span class="agenda-ticker-item">
                         <span class="badge-date">Hari Ini</span>
-                        Pelaksanaan Pelayanan Informasi Produk Hukum di Gedung Sekretariat DPRD Kabupaten Bolaang Mongondow Utara
+                        Pelaksanaan Pelayanan Informasi Produk Hukum di Gedung {{ $profil->nama_sekretariat ?? 'Sekretariat DPRD Kabupaten Bolaang Mongondow Utara' }}
                     </span>
                 @endforelse
             </div>
@@ -40,8 +40,8 @@
         <div class="container text-center">
             <div class="row justify-content-center">
                 <div class="col-lg-10">
-                    <h2 class="hero-title-main fs-2 fs-md-1">JARINGAN DOKUMENTASI DAN INFORMASI HUKUM</h2>
-                    <h3 class="hero-subtitle-main fs-4 fs-md-3">DEWAN PERWAKILAN RAKYAT DAERAH KOTA MEDAN</h3>
+                    <h2 class="hero-title-main fs-2 fs-md-1">{{ $profil->welcome_title ?? 'JARINGAN DOKUMENTASI DAN INFORMASI HUKUM' }}</h2>
+                    <h3 class="hero-subtitle-main fs-4 fs-md-3 text-uppercase">{{ $profil->welcome_subtitle ?? ($profil->nama_kantor ?? 'DEWAN PERWAKILAN RAKYAT DAERAH KABUPATEN BOLAANG MONGONDOW UTARA') }}</h3>
 
                     <!-- Multi-Criteria Search Card -->
                     <div class="search-card-container text-start">
@@ -306,31 +306,31 @@
                             <i class="bi bi-share-fill text-primary me-2"></i> Ikuti Media Sosial Kami
                         </h6>
                         <div class="d-flex flex-column gap-2 fs-8">
-                            <a href="https://www.facebook.com/sekretariat.dprdmedan.3" target="_blank" class="d-flex align-items-center gap-3 p-2 rounded-2 text-decoration-none bg-light text-dark hover-lift">
+                            <a href="{{ $profil->facebook ?? '#' }}" target="_blank" class="d-flex align-items-center gap-3 p-2 rounded-2 text-decoration-none bg-light text-dark hover-lift">
                                 <div class="bg-primary text-white rounded-circle d-flex align-items-center justify-content-center" style="width:34px; height:34px;">
                                     <i class="fab fa-facebook-f"></i>
                                 </div>
                                 <div>
                                     <div class="fw-bold">Facebook</div>
-                                    <small class="text-muted">Sekretariat DPRD Kota Medan</small>
+                                    <small class="text-muted">{{ $profil->nama_sekretariat ?? 'Sekretariat DPRD' }}</small>
                                 </div>
                             </a>
-                            <a href="https://www.instagram.com/humasdprdkotamedan/" target="_blank" class="d-flex align-items-center gap-3 p-2 rounded-2 text-decoration-none bg-light text-dark hover-lift">
+                            <a href="{{ $profil->instagram ?? '#' }}" target="_blank" class="d-flex align-items-center gap-3 p-2 rounded-2 text-decoration-none bg-light text-dark hover-lift">
                                 <div class="text-white rounded-circle d-flex align-items-center justify-content-center" style="width:34px; height:34px; background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);">
                                     <i class="fab fa-instagram"></i>
                                 </div>
                                 <div>
                                     <div class="fw-bold">Instagram</div>
-                                    <small class="text-muted">@humasdprdkotamedan</small>
+                                    <small class="text-muted">{{ $profil->nama_singkat_kantor ?? 'Instagram Resmi' }}</small>
                                 </div>
                             </a>
-                            <a href="https://www.youtube.com/channel/UCQozcUiMTsOe4w5TL8UzLwQ" target="_blank" class="d-flex align-items-center gap-3 p-2 rounded-2 text-decoration-none bg-light text-dark hover-lift">
+                            <a href="{{ $profil->youtube ?? '#' }}" target="_blank" class="d-flex align-items-center gap-3 p-2 rounded-2 text-decoration-none bg-light text-dark hover-lift">
                                 <div class="bg-danger text-white rounded-circle d-flex align-items-center justify-content-center" style="width:34px; height:34px;">
                                     <i class="fab fa-youtube"></i>
                                 </div>
                                 <div>
                                     <div class="fw-bold">YouTube</div>
-                                    <small class="text-muted">DPRD Kota Medan Channel</small>
+                                    <small class="text-muted">{{ $profil->nama_singkat_kantor ?? 'DPRD' }} Channel</small>
                                 </div>
                             </a>
                         </div>
@@ -408,7 +408,7 @@
                         </div>
                     </div>
                     <p class="fs-7 text-white-50 mb-4 lh-base">
-                        Kini tersedia aplikasi <strong>Smart JDIH DPRD Kota Medan</strong> untuk smartphone Android dan iOS. Dapatkan kemudahan penelusuran peraturan daerah, risalah sidang, rancangan peraturan, dan notifikasi regulasi terbaru kapanpun dan dimanapun secara real-time.
+                        Kini tersedia aplikasi <strong>Smart JDIH {{ $profil->nama_singkat_kantor ?? ($profil->nama_kantor ?? 'DPRD') }}</strong> untuk smartphone Android dan iOS. Dapatkan kemudahan penelusuran peraturan daerah, risalah sidang, rancangan peraturan, dan notifikasi regulasi terbaru kapanpun dan dimanapun secara real-time.
                     </p>
                     <div class="d-flex gap-3 flex-wrap">
                         <a href="#" class="btn btn-light rounded-pill px-4 py-2 fw-semibold fs-7 d-inline-flex align-items-center gap-2">

@@ -7,6 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 class Profil extends Model
 {
     protected $fillable = [
+        'nama_kantor',
+        'nama_singkat_kantor',
+        'nama_wilayah',
+        'nama_sekretariat',
+        'welcome_title',
+        'welcome_subtitle',
         'visi',
         'misi',
         'sejarah',

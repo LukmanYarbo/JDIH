@@ -1,13 +1,13 @@
 @extends('layouts.portal')
 
-@section('title', 'Tentang Kami - JDIH DPRD Bolmut')
+@section('title', 'Tentang Kami - JDIH ' . ($gProfil->nama_singkat_kantor ?? 'DPRD'))
 
 @section('content')
     <!-- Header Banner -->
     <section class="py-4 bg-primary text-white" style="background: linear-gradient(135deg, #07223c 0%, #0d3b66 100%);">
         <div class="container">
             <h2 class="fw-bold m-0"><i class="bi bi-info-circle me-2"></i> Profil JDIH</h2>
-            <p class="text-white-50 m-0 fs-7">Sekretariat DPRD Kabupaten Bolaang Mongondow Utara</p>
+            <p class="text-white-50 m-0 fs-7">{{ $gProfil->nama_sekretariat ?? ($gProfil->nama_kantor ?? 'Sekretariat DPRD') }}</p>
         </div>
     </section>
 
@@ -19,12 +19,12 @@
                 <!-- Main Profile Text -->
                 <div class="col-lg-8">
                     <div class="card border-0 shadow-sm p-4 p-md-5 rounded-4 mb-4">
-                        <h3 class="fw-bold text-primary mb-3">Tentang JDIH DPRD</h3>
+                        <h3 class="fw-bold text-primary mb-3">Tentang JDIH {{ $gProfil->nama_singkat_kantor ?? 'DPRD' }}</h3>
                         <p class="text-muted fs-6 lh-lg">
                             @if(isset($gProfil) && $gProfil->sejarah)
                                 {!! nl2br(e($gProfil->sejarah)) !!}
                             @else
-                                Jaringan Dokumentasi dan Informasi Hukum (JDIH) Sekretariat DPRD Kabupaten Bolaang Mongondow Utara dibentuk sebagai wadah pendayagunaan bersama atas dokumen hukum dan informasi hukum secara tertib, terpadu, dan berkesinambungan. Hal ini merupakan bagian dari upaya peningkatan transparansi legislasi dan penguatan fungsi pelayanan publik, khususnya yang berhubungan dengan kinerja Dewan Perwakilan Rakyat Daerah.
+                                Jaringan Dokumentasi dan Informasi Hukum (JDIH) {{ $gProfil->nama_sekretariat ?? ($gProfil->nama_kantor ?? 'Sekretariat DPRD') }} dibentuk sebagai wadah pendayagunaan bersama atas dokumen hukum dan informasi hukum secara tertib, terpadu, dan berkesinambungan. Hal ini merupakan bagian dari upaya peningkatan transparansi legislasi dan penguatan fungsi pelayanan publik, khususnya yang berhubungan dengan kinerja Dewan Perwakilan Rakyat Daerah.
                             @endif
                         </p>
                     </div>
@@ -57,8 +57,8 @@
 
                     <!-- Struktur Pimpinan DPRD -->
                     <div class="card border-0 shadow-sm p-4 p-md-5 rounded-4">
-                        <h3 class="fw-bold text-primary mb-1">Struktur Pimpinan DPRD</h3>
-                        <p class="text-muted fs-7 mb-4">Susunan Pimpinan DPRD Kabupaten Bolaang Mongondow Utara.</p>
+                        <h3 class="fw-bold text-primary mb-1">Struktur Pimpinan {{ $gProfil->nama_singkat_kantor ?? 'DPRD' }}</h3>
+                        <p class="text-muted fs-7 mb-4">Susunan Pimpinan {{ $gProfil->nama_kantor ?? 'DPRD' }}.</p>
 
                         @php
                             $pimpinanPengurus = (isset($pimpinanAk) && $pimpinanAk) ? $pimpinanAk->keanggotaans : collect();
@@ -176,8 +176,8 @@
                     <!-- Struktur Alat Kelengkapan DPRD -->
                     @if(isset($alatKelengkapan) && $alatKelengkapan->count())
                         <div class="card border-0 shadow-sm p-4 p-md-5 rounded-4 mb-0">
-                            <h3 class="fw-bold text-primary mb-1">Struktur Alat Kelengkapan DPRD</h3>
-                            <p class="text-muted fs-7 mb-4">Susunan pengurus Komisi dan Badan-Badan di lingkungan DPRD Kabupaten Bolaang Mongondow Utara.</p>
+                            <h3 class="fw-bold text-primary mb-1">Struktur Alat Kelengkapan {{ $gProfil->nama_singkat_kantor ?? 'DPRD' }}</h3>
+                            <p class="text-muted fs-7 mb-4">Susunan pengurus Komisi dan Badan-Badan di lingkungan {{ $gProfil->nama_kantor ?? 'DPRD' }}.</p>
                         </div>
 
                         @foreach($alatKelengkapan as $ak)
@@ -292,7 +292,7 @@
 
                         <h5 class="fw-bold my-4 text-primary"><i class="bi bi-shield-check me-1"></i> Legalitas Portal</h5>
                         <p class="text-muted fs-7 mb-0">
-                            Portal JDIH Sekretariat DPRD Kabupaten Bolaang Mongondow Utara ini telah terintegrasi dengan portal JDIH Nasional (JDIHN) Badan Pembinaan Hukum Nasional (BPHN) Kementerian Hukum dan HAM Republik Indonesia.
+                            Portal JDIH {{ $gProfil->nama_sekretariat ?? ($gProfil->nama_kantor ?? 'Sekretariat DPRD') }} ini telah terintegrasi dengan portal JDIH Nasional (JDIHN) Badan Pembinaan Hukum Nasional (BPHN) Kementerian Hukum dan HAM Republik Indonesia.
                         </p>
                     </div>
                 </div>

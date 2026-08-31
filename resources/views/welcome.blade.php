@@ -4,7 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>{{ isset($gProfil) && $gProfil->nama_singkat_kantor ? 'JDIH ' . $gProfil->nama_singkat_kantor : config('app.name', 'JDIH DPRD') }}</title>
 
         @fonts
 

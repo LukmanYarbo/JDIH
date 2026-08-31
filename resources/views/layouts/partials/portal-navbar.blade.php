@@ -1,9 +1,9 @@
-<!-- Top Banner Header (Bolaang Mongondow Utara) -->
+<!-- Top Banner Header -->
 @if(isset($gProfil) && $gProfil->banner_header && file_exists(public_path($gProfil->banner_header)))
     <div class="top-banner-wrapper text-center position-relative overflow-hidden" style="background-color: #0a192f; border-bottom: 2px solid #f59e0b;">
         <div class="container d-flex justify-content-center align-items-center py-0">
             <a href="{{ route('portal.home') }}" class="d-inline-block text-decoration-none text-center w-100">
-                <img src="{{ asset($gProfil->banner_header) }}" alt="Banner JDIH DPRD Kabupaten Bolaang Mongondow Utara" class="img-fluid mx-auto d-block" style="max-height: 280px; width: 100%; object-fit: contain; object-position: center;">
+                <img src="{{ asset($gProfil->banner_header) }}" alt="Banner JDIH {{ $gProfil->nama_singkat_kantor ?? 'DPRD' }}" class="img-fluid mx-auto d-block" style="max-height: 280px; width: 100%; object-fit: contain; object-position: center;">
             </a>
         </div>
     </div>
@@ -18,7 +18,7 @@
                 <!-- Left: Branding & Logos -->
                 <div class="d-flex align-items-center gap-3">
                     @if(isset($gProfil) && $gProfil->logo)
-                        <img src="{{ asset($gProfil->logo) }}" alt="Logo DPRD" style="height: 60px; width: auto; object-fit: contain;">
+                        <img src="{{ asset($gProfil->logo) }}" alt="Logo {{ $gProfil->nama_singkat_kantor ?? 'DPRD' }}" style="height: 60px; width: auto; object-fit: contain;">
                     @else
                         <div class="bg-white bg-opacity-10 p-2 rounded-3 border border-white border-opacity-20 d-flex align-items-center justify-content-center" style="width: 56px; height: 56px;">
                             <i class="bi bi-bank2 fs-2 text-warning"></i>
@@ -28,9 +28,9 @@
                         <span class="badge bg-warning text-dark fw-bold px-2 py-0.5 rounded-pill fs-9 text-uppercase mb-1 d-inline-block">
                             Jaringan Dokumentasi &amp; Informasi Hukum
                         </span>
-                        <h4 class="fw-bold mb-0 text-white lh-1">JDIH DPRD</h4>
-                        <div class="text-white-50 fs-8 fw-semibold letter-spacing-1 mt-1">
-                            KABUPATEN BOLAANG MONGONDOW UTARA
+                        <h4 class="fw-bold mb-0 text-white lh-1">{{ $gProfil->nama_singkat_kantor ?? 'JDIH DPRD' }}</h4>
+                        <div class="text-white-50 fs-8 fw-semibold letter-spacing-1 mt-1 text-uppercase">
+                            {{ $gProfil->nama_wilayah ?? 'KABUPATEN BOLAANG MONGONDOW UTARA' }}
                         </div>
                     </div>
                 </div>
@@ -38,7 +38,7 @@
                 <!-- Right: JDIHN National Badge & Hotline -->
                 <div class="d-none d-md-flex align-items-center gap-4">
                     <div class="text-end text-white-50 fs-8">
-                        <div><i class="bi bi-geo-alt-fill text-warning me-1"></i> Boroko, Kab. Bolaang Mongondow Utara</div>
+                        <div><i class="bi bi-geo-alt-fill text-warning me-1"></i> {{ $gProfil->alamat ?? 'Boroko, Kab. Bolaang Mongondow Utara' }}</div>
                         <div class="mt-1"><i class="bi bi-telephone-fill text-warning me-1"></i> {{ $gProfil->telepon ?? '061-4537728' }}</div>
                     </div>
                     <div class="bg-white bg-opacity-10 p-2 px-3 rounded-3 border border-white border-opacity-20 text-center">
@@ -63,9 +63,9 @@
                         <i class="bi bi-bank2 fs-4 text-warning"></i>
                     </div>
                     <div class="lh-1">
-                        <div class="fw-bold fs-5 text-dark" style="letter-spacing: -0.5px;">JDIH DPRD</div>
-                        <small class="text-muted fw-semibold"
-                            style="font-size: 0.72rem; letter-spacing: 0.5px;">KABUPATEN BOLAANG MONGONDOW UTARA</small>
+                        <div class="fw-bold fs-5 text-dark" style="letter-spacing: -0.5px;">{{ $gProfil->nama_singkat_kantor ?? 'JDIH DPRD' }}</div>
+                        <small class="text-muted fw-semibold text-uppercase"
+                            style="font-size: 0.72rem; letter-spacing: 0.5px;">{{ $gProfil->nama_wilayah ?? 'KABUPATEN BOLAANG MONGONDOW UTARA' }}</small>
                     </div>
                 </div>
             </a>

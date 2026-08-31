@@ -4,12 +4,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>@yield('title', 'JDIH DPRD - Jaringan Dokumentasi dan Informasi Hukum')</title>
+    <title>@yield('title', 'JDIH ' . (isset($gProfil) && $gProfil->nama_singkat_kantor ? $gProfil->nama_singkat_kantor : 'DPRD') . ' - Jaringan Dokumentasi dan Informasi Hukum')</title>
     
     <!-- Meta SEO -->
-    <meta name="description" content="JDIH DPRD - Jaringan Dokumentasi dan Informasi Hukum Dewan Perwakilan Rakyat Daerah. Pusat publikasi Peraturan Daerah, Keputusan DPRD, Risalah, dan Produk Hukum resmi.">
+    <meta name="description" content="JDIH {{ isset($gProfil) && $gProfil->nama_kantor ? $gProfil->nama_kantor : 'DPRD' }} - Jaringan Dokumentasi dan Informasi Hukum. Pusat publikasi Peraturan Daerah, Keputusan DPRD, Risalah, dan Produk Hukum resmi.">
     <meta name="keywords" content="JDIH, DPRD, JDIH DPRD, Jaringan Dokumentasi dan Informasi Hukum, Peraturan Daerah, PERDA, Keputusan DPRD, Risalah Rapat, Naskah Akademik, Ranperda, JDIHN">
-    <meta name="author" content="JDIH DPRD">
+    <meta name="author" content="JDIH {{ isset($gProfil) && $gProfil->nama_singkat_kantor ? $gProfil->nama_singkat_kantor : 'DPRD' }}">
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

@@ -1,6 +1,6 @@
 @extends('layouts.portal')
 
-@section('title', 'Hubungi Kami & Layanan Informasi - JDIH DPRD')
+@section('title', 'Hubungi Kami & Layanan Informasi - JDIH ' . ($profil->nama_singkat_kantor ?? 'DPRD'))
 
 @section('content')
 
@@ -37,7 +37,7 @@
                                 </div>
                                 <div>
                                     <div class="fw-bold text-dark">Alamat Kantor:</div>
-                                    <div class="text-muted">{{ $profil->alamat ?? 'Gedung DPRD, Bagian Persidangan & Perundang-Undangan Sekretariat DPRD Kota Medan, Jl. Kapten Maulana Lubis No. 1' }}</div>
+                                    <div class="text-muted">{{ $profil->alamat ?? 'Gedung DPRD' }}</div>
                                 </div>
                             </div>
 
@@ -47,7 +47,7 @@
                                 </div>
                                 <div>
                                     <div class="fw-bold text-dark">Telepon / Fax:</div>
-                                    <div class="text-muted">{{ $profil->telepon ?? '061-4537728' }}</div>
+                                    <div class="text-muted">{{ $profil->telepon ?? '-' }}</div>
                                 </div>
                             </div>
 
@@ -57,7 +57,7 @@
                                 </div>
                                 <div>
                                     <div class="fw-bold text-dark">Email Resmi:</div>
-                                    <div class="text-muted">{{ $profil->email ?? 'jdih@dprd.medan.go.id' }}</div>
+                                    <div class="text-muted">{{ $profil->email ?? 'jdih@dprd.go.id' }}</div>
                                 </div>
                             </div>
 

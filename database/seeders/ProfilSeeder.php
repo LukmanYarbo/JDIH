@@ -15,6 +15,12 @@ class ProfilSeeder extends Seeder
         Profil::updateOrCreate(
             ['id' => 1],
             [
+                'nama_kantor' => 'Dewan Perwakilan Rakyat Daerah Kabupaten Bolaang Mongondow Utara',
+                'nama_singkat_kantor' => 'DPRD Kabupaten Bolaang Mongondow Utara',
+                'nama_wilayah' => 'KABUPATEN BOLAANG MONGONDOW UTARA',
+                'nama_sekretariat' => 'Sekretariat DPRD Kabupaten Bolaang Mongondow Utara',
+                'welcome_title' => 'JARINGAN DOKUMENTASI DAN INFORMASI HUKUM',
+                'welcome_subtitle' => 'DEWAN PERWAKILAN RAKYAT DAERAH KABUPATEN BOLAANG MONGONDOW UTARA',
                 'visi' => "Terwujudnya Jaringan Dokumentasi dan Informasi Hukum DPRD yang Terintegrasi, Modern, Transparan, Akurat, dan Terpercaya dalam Mendukung Tata Kelola Pemerintahan yang Baik (Good Governance).",
                 'misi' => "1. Menjamin ketersediaan dokumentasi dan informasi hukum yang lengkap, sahih, dan mutakhir.\n2. Mengembangkan sistem pelayanan informasi hukum berbasis teknologi informasi terintegrasi dengan JDIHN Nasional.\n3. Meningkatkan kualitas pengelolaan dan sumber daya manusia pengelola JDIH secara profesional.\n4. Meningkatkan partisipasi dan literasi hukum masyarakat melalui penyebarluasan produk hukum daerah secara mudah dan cepat.",
                 'sejarah' => "Ide membentuk Jaringan Dokumentasi dan Informasi Hukum Nasional (JDIHN), secara historis melekat erat dengan pembangunan hukum nasional dalam upaya mewujudkan supremasi hukum. JDIH DPRD hadir sebagai pusat pangkalan data perundang-undangan dan instrumen dokumentasi hukum yang melayani pimpinan dewan, anggota dewan, aparatur sipil negara, akademisi, serta seluruh lapisan masyarakat luas.",
