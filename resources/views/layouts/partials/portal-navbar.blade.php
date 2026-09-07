@@ -317,20 +317,7 @@
                         </a>
                     </li>
 
-                    <!-- Auth Button -->
-                    <li class="nav-item ms-lg-2">
-                        @auth
-                            <a class="btn btn-sm btn-outline-primary rounded-pill px-3 py-1 fw-semibold"
-                                href="{{ route('admin.dashboard') }}">
-                                <i class="bi bi-speedometer2 me-1"></i> Dashboard
-                            </a>
-                        @else
-                            <a class="btn btn-sm btn-primary rounded-pill px-3 py-1 fw-semibold"
-                                href="{{ route('login') }}">
-                                <i class="bi bi-box-arrow-in-right me-1"></i> Login
-                            </a>
-                        @endauth
-                    </li>
+
 
                 </ul>
             </div>

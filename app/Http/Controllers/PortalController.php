@@ -345,13 +345,22 @@ class PortalController extends Controller
 
     public function gallery(Request $request)
     {
-        $query = Galeri::where('tipe', 'foto');
-        if ($request->filled('q')) {
-            $query->where('judul', 'like', "%{$request->q}%");
-        }
-        $photos = $query->orderBy('created_at', 'desc')->paginate(12);
+        $query = Galeri::query();
 
-        return view('portal.gallery', compact('photos'));
+        if ($request->filled('type') && in_array($request->type, ['foto', 'video'])) {
+            $query->where('tipe', $request->type);
+        }
+
+        if ($request->filled('q')) {
+            $query->where(function ($q) use ($request) {
+                $q->where('judul', 'like', "%{$request->q}%")
+                  ->orWhere('keterangan', 'like', "%{$request->q}%");
+            });
+        }
+
+        $items = $query->orderBy('created_at', 'desc')->paginate(12);
+
+        return view('portal.gallery', compact('items'));
     }
 
     public function video(Request $request)
