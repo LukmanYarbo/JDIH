@@ -64,10 +64,18 @@
         @endif
 
         @if(auth()->user()->hasRole('Admin'))
-            <div class="text-uppercase text-white-50 fs-9 fw-bold px-3 pt-3 pb-2 font-monospace">Manajemen Sistem</div>
+            <div class="text-uppercase text-white-50 fs-9 fw-bold px-3 pt-3 pb-2 font-monospace">Manajemen Akses &amp; Sistem</div>
             <a href="{{ route('admin.users.index') }}"
                 class="sidebar-item {{ Route::is('admin.users.*') ? 'active' : '' }}">
                 <i class="bi bi-people"></i> Manajemen User
+            </a>
+            <a href="{{ route('admin.roles.index') }}"
+                class="sidebar-item {{ Route::is('admin.roles.*') ? 'active' : '' }}">
+                <i class="bi bi-shield-lock"></i> Role &amp; Hak Akses
+            </a>
+            <a href="{{ route('admin.permissions.index') }}"
+                class="sidebar-item {{ Route::is('admin.permissions.*') ? 'active' : '' }}">
+                <i class="bi bi-key"></i> Daftar Permission
             </a>
         @endif
     </div>

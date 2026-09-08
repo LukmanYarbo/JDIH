@@ -10,6 +10,8 @@ use App\Http\Controllers\Admin\GaleriController;
 use App\Http\Controllers\Admin\JenisDokumenController;
 use App\Http\Controllers\Admin\ProfilController;
 use App\Http\Controllers\Admin\RanperdaController as AdminRanperdaController;
+use App\Http\Controllers\Admin\RoleController;
+use App\Http\Controllers\Admin\PermissionController;
 use App\Http\Controllers\Admin\TimPengelolaController;
 use App\Http\Controllers\Admin\UserController;
 use App\Http\Controllers\AuthController;
@@ -72,9 +74,11 @@ Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () 
     Route::get('/', [DashboardController::class, 'index'])->name('index');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
-    // Admin-Only Routes (User Management)
+    // Admin-Only Routes (User, Role & Permission Management)
     Route::middleware(['role:Admin'])->group(function () {
         Route::resource('users', UserController::class);
+        Route::resource('roles', RoleController::class);
+        Route::resource('permissions', PermissionController::class)->only(['index', 'store', 'destroy']);
     });
 
     // Admin & Operator Routes
