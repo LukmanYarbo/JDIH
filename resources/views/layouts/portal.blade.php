@@ -6,6 +6,16 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>@yield('title', 'JDIH ' . (isset($gProfil) && $gProfil->nama_singkat_kantor ? $gProfil->nama_singkat_kantor : 'DPRD') . ' - Jaringan Dokumentasi dan Informasi Hukum')</title>
     
+    <!-- Favicon / Tab Icon -->
+    @if(isset($gProfil) && $gProfil->logo && file_exists(public_path($gProfil->logo)))
+        <link rel="icon" href="{{ asset($gProfil->logo) }}">
+        <link rel="shortcut icon" href="{{ asset($gProfil->logo) }}">
+        <link rel="apple-touch-icon" href="{{ asset($gProfil->logo) }}">
+    @else
+        <link rel="icon" href="{{ asset('favicon.ico') }}">
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
+    @endif
+    
     <!-- Meta SEO -->
     <meta name="description" content="JDIH {{ isset($gProfil) && $gProfil->nama_kantor ? $gProfil->nama_kantor : 'DPRD' }} - Jaringan Dokumentasi dan Informasi Hukum. Pusat publikasi Peraturan Daerah, Keputusan DPRD, Risalah, dan Produk Hukum resmi.">
     <meta name="keywords" content="JDIH, DPRD, JDIH DPRD, Jaringan Dokumentasi dan Informasi Hukum, Peraturan Daerah, PERDA, Keputusan DPRD, Risalah Rapat, Naskah Akademik, Ranperda, JDIHN">

@@ -4,7 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Login Admin - JDIH DPRD Bolmut</title>
+    <title>Login Admin - JDIH {{ isset($gProfil) && $gProfil->nama_singkat_kantor ? $gProfil->nama_singkat_kantor : 'DPRD' }}</title>
+    
+    <!-- Favicon / Tab Icon -->
+    @if(isset($gProfil) && $gProfil->logo && file_exists(public_path($gProfil->logo)))
+        <link rel="icon" href="{{ asset($gProfil->logo) }}">
+        <link rel="shortcut icon" href="{{ asset($gProfil->logo) }}">
+        <link rel="apple-touch-icon" href="{{ asset($gProfil->logo) }}">
+    @else
+        <link rel="icon" href="{{ asset('favicon.ico') }}">
+        <link rel="shortcut icon" href="{{ asset('favicon.ico') }}">
+    @endif
     
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
