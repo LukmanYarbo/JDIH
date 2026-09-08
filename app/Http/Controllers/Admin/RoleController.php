@@ -94,6 +94,12 @@ class RoleController extends Controller
                 'color' => 'secondary',
                 'description' => 'Kelola kunci hak akses granular aplikasi.',
             ],
+            'activity-logs' => [
+                'name' => 'Log Aktivitas',
+                'icon' => 'bi bi-clock-history',
+                'color' => 'dark',
+                'description' => 'Rekam jejak dan riwayat aktivitas seluruh pengguna.',
+            ],
         ];
     }
 

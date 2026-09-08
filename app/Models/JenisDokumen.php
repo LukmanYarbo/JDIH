@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Model;
 
 class JenisDokumen extends Model
 {
+    use LogsActivity;
+
     protected $fillable = [
         'tipe_dokumen',
         'nama',

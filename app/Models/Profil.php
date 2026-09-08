@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Model;
 
 class Profil extends Model
 {
+    use LogsActivity;
+
     protected $fillable = [
         'nama_kantor',
         'nama_singkat_kantor',

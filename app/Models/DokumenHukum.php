@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Model;
 
 class DokumenHukum extends Model
 {
+    use LogsActivity;
+
     protected $fillable = [
         'jenis_dokumen_id',
         'tipe_dokumen',

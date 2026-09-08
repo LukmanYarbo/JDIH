@@ -2,10 +2,13 @@
 
 namespace App\Models;
 
+use App\Traits\LogsActivity;
 use Illuminate\Database\Eloquent\Model;
 
 class Agenda extends Model
 {
+    use LogsActivity;
+
     protected $fillable = [
         'judul',
         'waktu_mulai',

@@ -77,6 +77,10 @@
                 class="sidebar-item {{ Route::is('admin.permissions.*') ? 'active' : '' }}">
                 <i class="bi bi-key"></i> Daftar Permission
             </a>
+            <a href="{{ route('admin.activity-logs.index') }}"
+                class="sidebar-item {{ Route::is('admin.activity-logs.*') ? 'active' : '' }}">
+                <i class="bi bi-clock-history"></i> Log Aktivitas
+            </a>
         @endif
     </div>
     <div class="sidebar-footer">
