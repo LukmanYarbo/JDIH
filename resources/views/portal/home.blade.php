@@ -466,15 +466,15 @@
                     </a>
                 </div>
                 <div class="col">
-                    <a href="https://jdih.medan.go.id/" target="_blank" class="card p-3 border-0 shadow-sm text-decoration-none text-dark hover-lift h-100 d-flex align-items-center justify-content-center">
+                    <a href="https://jdih.bolmutkab.go.id/" target="_blank" class="card p-3 border-0 shadow-sm text-decoration-none text-dark hover-lift h-100 d-flex align-items-center justify-content-center">
                         <i class="bi bi-geo-alt-fill fs-2 text-success mb-1"></i>
-                        <span class="fs-8 fw-semibold">Pemkot Medan</span>
+                        <span class="fs-8 fw-semibold">JDIH Bolmut</span>
                     </a>
                 </div>
                 <div class="col">
-                    <a href="https://jdih.sumutprov.go.id/" target="_blank" class="card p-3 border-0 shadow-sm text-decoration-none text-dark hover-lift h-100 d-flex align-items-center justify-content-center">
+                    <a href="https://jdih.sulutprov.go.id/" target="_blank" class="card p-3 border-0 shadow-sm text-decoration-none text-dark hover-lift h-100 d-flex align-items-center justify-content-center">
                         <i class="bi bi-pin-map-fill fs-2 text-info mb-1"></i>
-                        <span class="fs-8 fw-semibold">Provinsi Sumut</span>
+                        <span class="fs-8 fw-semibold">Provinsi Sulut</span>
                     </a>
                 </div>
                 <div class="col">

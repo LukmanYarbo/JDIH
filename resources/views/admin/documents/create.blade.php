@@ -71,7 +71,7 @@
                     <div class="row g-3 mb-3">
                         <div class="col-md-4">
                             <label for="tempat_terbit" class="form-label fs-7 fw-semibold text-muted">Tempat Terbit</label>
-                            <input type="text" name="tempat_terbit" id="tempat_terbit" class="form-control" value="{{ old('tempat_terbit', 'Medan') }}">
+                            <input type="text" name="tempat_terbit" id="tempat_terbit" class="form-control" value="{{ old('tempat_terbit', 'Boroko') }}">
                         </div>
                         <div class="col-md-4">
                             <label for="sumber" class="form-label fs-7 fw-semibold text-muted">Sumber / Lembaran Daerah</label>

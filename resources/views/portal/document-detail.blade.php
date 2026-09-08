@@ -80,7 +80,7 @@
                                     </tr>
                                     <tr>
                                         <th class="bg-light text-muted">Tempat Terbit</th>
-                                        <td>{{ $document->tempat_terbit ?: 'Medan' }}</td>
+                                        <td>{{ $document->tempat_terbit ?: 'Boroko' }}</td>
                                     </tr>
                                     <tr>
                                         <th class="bg-light text-muted">Sumber / Lembaran Daerah</th>
