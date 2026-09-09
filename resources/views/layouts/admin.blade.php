@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'Admin Dashboard JDIH ' . (isset($gProfil) && $gProfil->nama_singkat_kantor ? $gProfil->nama_singkat_kantor : 'DPRD'))</title>
     
     <!-- Favicon / Tab Icon -->
@@ -361,7 +362,216 @@
                     }, title, text, btnText);
                 });
             });
-        });
+        // ==========================================
+        // 30-MINUTE INACTIVITY AUTO-LOGOUT SYSTEM
+        // ==========================================
+        (function() {
+            const TIMEOUT_MINUTES = 30;
+            const TIMEOUT_MS = TIMEOUT_MINUTES * 60 * 1000;      // 30 menit (1.800.000 ms)
+            const WARNING_MS = 2 * 60 * 1000;                     // Peringatan 2 menit sebelum logout (120.000 ms)
+            const WARNING_THRESHOLD_MS = TIMEOUT_MS - WARNING_MS; // Mulai peringatan pada menit ke-28 (1.680.000 ms)
+            const PING_INTERVAL_MS = 5 * 60 * 1000;               // Ping server tiap 5 menit saat ada aktivitas aktif
+
+            let lastActivity = Date.now();
+            try {
+                const storedActivity = localStorage.getItem('jdih_admin_last_activity');
+                if (storedActivity && !isNaN(storedActivity)) {
+                    lastActivity = Math.max(lastActivity, parseInt(storedActivity, 10));
+                }
+                localStorage.setItem('jdih_admin_last_activity', lastActivity.toString());
+            } catch(e) {}
+
+            let isWarningOpen = false;
+            let countdownInterval = null;
+            let lastPingTime = Date.now();
+            let activityThrottleTimer = null;
+
+            const pingUrl = "{{ route('admin.ping') }}";
+            const autoLogoutUrl = "{{ route('auto-logout') }}";
+            const csrfToken = document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '';
+
+            function sendPing() {
+                lastPingTime = Date.now();
+                fetch(pingUrl, {
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken,
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                }).catch(function(err) {
+                    console.debug('Ping error:', err);
+                });
+            }
+
+            function triggerLogout() {
+                if (countdownInterval) {
+                    clearInterval(countdownInterval);
+                    countdownInterval = null;
+                }
+                Swal.close();
+
+                Swal.fire({
+                    title: 'Sesi Berakhir',
+                    text: 'Anda telah keluar otomatis karena tidak ada aktivitas selama 30 menit. Mengalihkan ke halaman login...',
+                    icon: 'info',
+                    showConfirmButton: false,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    customClass: {
+                        popup: 'rounded-4 shadow-lg border-0'
+                    }
+                });
+
+                setTimeout(function() {
+                    window.location.href = autoLogoutUrl;
+                }, 1000);
+            }
+
+            function showWarningModal(remainingSeconds) {
+                if (isWarningOpen) return;
+                isWarningOpen = true;
+
+                Swal.fire({
+                    title: 'Peringatan Inaktivitas',
+                    html: `
+                        <div class="py-2">
+                            <p class="mb-2">Anda tidak melakukan aktivitas selama 28 menit.</p>
+                            <p class="mb-3">Sesi Anda akan otomatis keluar dalam: <br>
+                                <span id="session-countdown-display" class="fw-bold text-danger fs-3">${remainingSeconds}</span> detik
+                            </p>
+                            <small class="text-muted">Klik tombol <strong>Tetap Masuk</strong> untuk melanjutkan pekerjaan Anda.</small>
+                        </div>
+                    `,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonText: '<i class="bi bi-shield-check me-1"></i> Tetap Masuk',
+                    cancelButtonText: '<i class="bi bi-box-arrow-right me-1"></i> Logout Sekarang',
+                    confirmButtonColor: '#0d3b66',
+                    cancelButtonColor: '#dc3545',
+                    reverseButtons: true,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
+                    focusConfirm: true,
+                    customClass: {
+                        popup: 'rounded-4 shadow-lg border-0',
+                        confirmButton: 'rounded-pill px-4 py-2 fw-semibold',
+                        cancelButton: 'rounded-pill px-4 py-2'
+                    }
+                }).then(function(result) {
+                    isWarningOpen = false;
+                    if (countdownInterval) {
+                        clearInterval(countdownInterval);
+                        countdownInterval = null;
+                    }
+
+                    if (result.isConfirmed) {
+                        recordUserActivity(true);
+                    } else if (result.dismiss === Swal.DismissReason.cancel) {
+                        triggerLogout();
+                    }
+                });
+
+                // Interval per detik untuk teks hitung mundur
+                if (countdownInterval) clearInterval(countdownInterval);
+                countdownInterval = setInterval(function() {
+                    const currentIdle = Date.now() - lastActivity;
+                    const secsLeft = Math.max(0, Math.ceil((TIMEOUT_MS - currentIdle) / 1000));
+                    
+                    const el = document.getElementById('session-countdown-display');
+                    if (el) {
+                        el.textContent = secsLeft;
+                    }
+
+                    if (secsLeft <= 0) {
+                        clearInterval(countdownInterval);
+                        countdownInterval = null;
+                        triggerLogout();
+                    }
+                }, 1000);
+            }
+
+            function checkInactivity() {
+                const idleTime = Date.now() - lastActivity;
+
+                if (idleTime >= TIMEOUT_MS) {
+                    triggerLogout();
+                } else if (idleTime >= WARNING_THRESHOLD_MS) {
+                    const secsLeft = Math.max(0, Math.ceil((TIMEOUT_MS - idleTime) / 1000));
+                    showWarningModal(secsLeft);
+                }
+            }
+
+            function recordUserActivity(forcePing) {
+                const now = Date.now();
+                lastActivity = now;
+
+                try {
+                    localStorage.setItem('jdih_admin_last_activity', now.toString());
+                } catch(e) {}
+
+                if (isWarningOpen) {
+                    if (countdownInterval) {
+                        clearInterval(countdownInterval);
+                        countdownInterval = null;
+                    }
+                    Swal.close();
+                    isWarningOpen = false;
+                }
+
+                if (forcePing || (now - lastPingTime > PING_INTERVAL_MS)) {
+                    sendPing();
+                }
+            }
+
+            // Sync lintas tab browser
+            window.addEventListener('storage', function(e) {
+                if (e.key === 'jdih_admin_last_activity' && e.newValue) {
+                    const extActivity = parseInt(e.newValue, 10);
+                    if (!isNaN(extActivity) && extActivity > lastActivity) {
+                        lastActivity = extActivity;
+                        if (isWarningOpen) {
+                            if (countdownInterval) {
+                                clearInterval(countdownInterval);
+                                countdownInterval = null;
+                            }
+                            Swal.close();
+                            isWarningOpen = false;
+                        }
+                    }
+                }
+            });
+
+            // Pantau event aktivitas pengguna (mouse, ketikan keyboard, scroll, layar sentuh)
+            const activityEvents = ['mousemove', 'mousedown', 'keydown', 'scroll', 'touchstart'];
+            activityEvents.forEach(function(evt) {
+                window.addEventListener(evt, function() {
+                    // Jika popup peringatan sedang aktif, jangan reset otomatis karena mouse bergerak tipis.
+                    // Pengguna harus secara sadar menekan "Tetap Masuk".
+                    if (isWarningOpen) return;
+
+                    if (!activityThrottleTimer) {
+                        activityThrottleTimer = setTimeout(function() {
+                            activityThrottleTimer = null;
+                            recordUserActivity(false);
+                        }, 1000);
+                    }
+                }, { passive: true });
+            });
+
+            // Timer pengecekan inaktivitas berkala (setiap 2 detik)
+            setInterval(checkInactivity, 2000);
+
+            // Cek langsung saat tab browser kembali aktif setelah diminimalkan / laptop bangun dari sleep
+            document.addEventListener('visibilitychange', function() {
+                if (!document.hidden) {
+                    checkInactivity();
+                }
+            });
+            window.addEventListener('focus', function() {
+                checkInactivity();
+            });
+        })();
     </script>
     @yield('scripts')
 </body>

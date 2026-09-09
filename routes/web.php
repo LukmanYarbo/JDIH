@@ -67,11 +67,13 @@ Route::get('/ikm/result', [PortalController::class, 'getIkmResult'])->name('port
 Route::get('/login', [AuthController::class, 'showLogin'])->name('login');
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
+Route::get('/auto-logout', [AuthController::class, 'autoLogout'])->name('auto-logout');
 
 // ==========================================
 // ADMIN PANEL ROUTES
 // ==========================================
-Route::middleware(['auth'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'timeout'])->prefix('admin')->name('admin.')->group(function () {
+    Route::match(['GET', 'POST'], '/ping', [AuthController::class, 'ping'])->name('ping');
     Route::get('/', [DashboardController::class, 'index'])->name('index');
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 

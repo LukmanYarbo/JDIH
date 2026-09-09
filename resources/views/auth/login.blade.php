@@ -107,6 +107,20 @@
                 </div>
             @endif
 
+            @if (session('warning'))
+                <div class="alert alert-warning border-0 py-2.5 fs-7 mb-4 d-flex align-items-center rounded-3">
+                    <i class="bi bi-clock-history fs-5 me-2 text-warning-emphasis"></i>
+                    <div>{{ session('warning') }}</div>
+                </div>
+            @endif
+
+            @if (session('status'))
+                <div class="alert alert-info border-0 py-2.5 fs-7 mb-4 d-flex align-items-center rounded-3">
+                    <i class="bi bi-info-circle-fill fs-5 me-2 text-info-emphasis"></i>
+                    <div>{{ session('status') }}</div>
+                </div>
+            @endif
+
             <form action="{{ route('login') }}" method="POST">
                 @csrf
                 
