@@ -38,6 +38,44 @@
                         <div class="news-content fs-6 text-dark lh-lg">
                             {!! nl2br(e($news->konten)) !!}
                         </div>
+
+                        <!-- Share Buttons -->
+                        <hr class="my-4">
+                        <div class="d-flex flex-wrap align-items-center gap-2">
+                            <span class="fw-bold text-primary me-1"><i class="bi bi-share-fill me-1"></i> Bagikan:</span>
+                            <a href="https://wa.me/?text={{ urlencode($news->judul . ' - ' . request()->url()) }}"
+                               target="_blank" rel="noopener"
+                               class="btn btn-sm btn-success rounded-pill px-3"
+                               title="Bagikan ke WhatsApp">
+                                <i class="bi bi-whatsapp me-1"></i> WhatsApp
+                            </a>
+                            <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(request()->url()) }}"
+                               target="_blank" rel="noopener"
+                               class="btn btn-sm text-white rounded-pill px-3"
+                               style="background-color: #1877f2;"
+                               title="Bagikan ke Facebook">
+                                <i class="bi bi-facebook me-1"></i> Facebook
+                            </a>
+                            <a href="https://twitter.com/intent/tweet?text={{ urlencode($news->judul) }}&url={{ urlencode(request()->url()) }}"
+                               target="_blank" rel="noopener"
+                               class="btn btn-sm text-white rounded-pill px-3"
+                               style="background-color: #1d1d1f;"
+                               title="Bagikan ke X (Twitter)">
+                                <i class="bi bi-twitter-x me-1"></i> X
+                            </a>
+                            <a href="mailto:?subject={{ urlencode($news->judul) }}&body={{ urlencode($news->judul . "\n\n" . request()->url()) }}"
+                               class="btn btn-sm text-white rounded-pill px-3"
+                               style="background-color: #6c757d;"
+                               title="Bagikan melalui Email">
+                                <i class="bi bi-envelope-fill me-1"></i> Email
+                            </a>
+                            <button type="button" class="btn btn-sm btn-outline-primary rounded-pill px-3"
+                                    id="btnCopyLink"
+                                    onclick="copyShareLink()"
+                                    title="Salin tautan">
+                                <i class="bi bi-link-45deg me-1"></i> <span id="copyLinkLabel">Salin Link</span>
+                            </button>
+                        </div>
                     </div>
                 </div>
 
@@ -75,4 +113,44 @@
             </div>
         </div>
     </section>
+@endsection
+
+@section('scripts')
+    <script>
+        function copyShareLink() {
+            const text = "{{ addslashes($news->judul) }}\n{{ request()->url() }}";
+            const label = document.getElementById('copyLinkLabel');
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(function() {
+                    feedbackCopied(label);
+                }).catch(function() {
+                    fallbackCopy(text, label);
+                });
+            } else {
+                fallbackCopy(text, label);
+            }
+        }
+
+        function fallbackCopy(text, label) {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            try {
+                document.execCommand('copy');
+                feedbackCopied(label);
+            } catch (e) {
+                label.textContent = 'Salin Gagal';
+            }
+            document.body.removeChild(ta);
+        }
+
+        function feedbackCopied(label) {
+            label.textContent = 'Link Tersalin!';
+            setTimeout(function() { label.textContent = 'Salin Link'; }, 2000);
+        }
+    </script>
 @endsection

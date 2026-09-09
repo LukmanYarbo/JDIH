@@ -317,6 +317,15 @@
                         </a>
                     </li>
 
+                    <!-- 9. Profil (Sudut Kanan Navbar) -->
+                    <li class="nav-item ms-lg-1">
+                        <a class="nav-link d-inline-flex align-items-center gap-1 fw-semibold px-3 py-1 rounded-pill"
+                            style="background: linear-gradient(135deg, #0d3b66 0%, #185a9d 100%); color:#fff;"
+                            href="{{ route('portal.profile') }}">
+                            <i class="bi bi-person-fill"></i> Profil
+                        </a>
+                    </li>
+
 
 
                 </ul>
